@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Styles */
+.breadcrumbs {
+    @apply bg-white shadow px-4 py-3 rounded-lg;
+}
+
+.breadcrumbs ul {
+    @apply flex space-x-2;
+}
+
+.breadcrumbs li {
+    @apply inline-flex items-center;
+}
+
+.breadcrumbs li a {
+    @apply text-gray-600 hover:text-blue-500 transition-colors duration-200;
+}
+
+.breadcrumbs li::after {
+    content: "/";
+    @apply mx-2 text-gray-400;
+}
+
+.breadcrumbs li:last-child::after {
+    content: "";
+}

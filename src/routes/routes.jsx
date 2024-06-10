@@ -1,0 +1,109 @@
+import { createBrowserRouter } from "react-router-dom";
+import MainLayout from "../Layout/Main/Main";
+import Home from "../Pages/Home/Home";
+import UserDashboard from "../Layout/UserDashboard/UserDashboard";
+import Login from "../Pages/Authentication/Login/Login";
+import Registration from "../Pages/Authentication/Registration/Registration";
+import JoinAMess from "../Pages/JoinAMess/JoinAMess";
+import CreateAMess from "../Pages/CreateAMess/CreateAMess";
+import AddMeal from "../Pages/userPanel/AddMeal/AddMeal"
+import AddDeposit from "../Pages/userPanel/AddDeposit/AddDeposit";
+import MessMembers from "../Pages/userPanel/MessMembers/MessMembers";
+import PayCost from "../Pages/userPanel/PayCost/PayCost";
+import UserPaymentHistory from "../Pages/userPanel/UserPaymentHistory/UserPaymentHistory";
+import ManagerDashboard from "../Layout/ManagerDashboard/ManagerDashboard";
+import ApproveUsers from "../Pages/ManagerPanel/ApproveUsers/ApproveUsers"
+import ApproveDeposits from "../Pages/ManagerPanel/ApproveDeposits/ApproveDeposits"
+import AssignBills from "../Pages/ManagerPanel/AssignBills/AssignBills"
+import ViewMeal from "../Pages/ManagerPanel/ViewMeal/ViewMeal"
+import ReceiveBills from "../Pages/ManagerPanel/ReceiveBills/ReceiveBills"
+import MessPaymentHistory from "../Pages/ManagerPanel/MessPaymentHistory/MessPaymentHistory";
+
+const routes = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Registration />,
+      }
+    ],
+  },
+  // user dashboard
+  {
+    path: "/user-dashboard",
+    element: <UserDashboard />,
+    children: [
+      {
+        path: "joinAMess",
+        element: <JoinAMess />
+      },
+      {
+        path: "createAMess",
+        element: <CreateAMess />
+      },
+      {
+        path: "addMeal",
+        element: <AddMeal />
+      },
+      {
+        path: "addDeposit",
+        element: <AddDeposit />
+      },
+      {
+        path: "messMembers",
+        element: <MessMembers />
+      },
+      {
+        path: "payCost",
+        element: <PayCost />
+      },
+      {
+        path: "user-paymentHistory",
+        element: <UserPaymentHistory />
+      },
+    ]
+  },
+  // manager dashboard
+  {
+    path: "/manager-dashboard",
+    element: <ManagerDashboard />,
+    children: [
+      {
+        path: "approveUsers",
+        element: <ApproveUsers />
+      },
+      {
+        path: "approveDeposits",
+        element: <ApproveDeposits />
+      },
+      {
+        path: "assignBills",
+        element: <AssignBills />
+      },
+      {
+        path: "viewMeal",
+        element: <ViewMeal />
+      },
+      {
+        path: "receiveBills",
+        element: <ReceiveBills />
+      },
+      {
+        path: "mess-paymentHistory",
+        element: <MessPaymentHistory />
+      },
+    ]
+  }
+]);
+
+export default routes;
