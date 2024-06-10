@@ -1,16 +1,32 @@
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Registration = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const navigate = useNavigate();
+
+    // form submit
     const onSubmit = async (data) => {
+        // check password and confirm password match or not
+        if (data.password !== data.confirmPassword) {
+            toast.error('Passwords do not match');
+            return;
+        }
+
         try {
-            await axios.post('/api/v1/users', data);
-            navigate('/login');
+            const response = await axios.post('http://localhost:5000/user/register', data);
+            if (response.status === 201) {
+                toast.success(response.data);
+                navigate('/login');
+            }
+            if (response.status === 400) {
+                toast.success(response.data);
+            }
         } catch (err) {
             console.error(err);
+            toast.error('Server Error');
         }
     };
 
