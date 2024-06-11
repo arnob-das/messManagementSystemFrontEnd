@@ -1,41 +1,30 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { useDispatch } from "react-redux";
-import { loginSuccess, loginFailure } from "../../../features/auth/authSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { login } from "../../../features/auth/authSlice";
 
 const Login = () => {
     const { register, handleSubmit } = useForm();
     const dispatch = useDispatch();
-
     const navigate = useNavigate();
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post("http://localhost:5000/user/login", data);
-
-            if (response.status === 200) {
-                // Login successful
-                dispatch(loginSuccess(response.data.user));
+            const resultAction = await dispatch(login(data));
+            if (login.fulfilled.match(resultAction)) {
                 toast.success("Login successful");
                 navigate('/user-dashboard');
-                // Handle success, such as redirecting to another page
             } else {
-                // Handle other status codes
-                dispatch(loginFailure("Server error"));
-                toast.error("Server error");
+                if (resultAction.payload) {
+                    toast.error(resultAction.payload);
+                } else {
+                    toast.error("Login failed");
+                }
             }
         } catch (err) {
-            // Login failed
-            if (err.response) {
-                dispatch(loginFailure(err.response.data.message));
-                toast.error(err.response.data.message);
-            } else {
-                dispatch(loginFailure("Server error"));
-                toast.error("Server error");
-            }
+            toast.error("Server error");
         }
     };
 
