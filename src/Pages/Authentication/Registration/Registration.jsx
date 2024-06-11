@@ -9,7 +9,7 @@ const Registration = () => {
 
     // form submit
     const onSubmit = async (data) => {
-        // check password and confirm password match or not
+        // check if password and confirm password match
         if (data.password !== data.confirmPassword) {
             toast.error('Passwords do not match');
             return;
@@ -18,17 +18,18 @@ const Registration = () => {
         try {
             const response = await axios.post('http://localhost:5000/user/register', data);
             if (response.status === 201) {
-                toast.success(response.data);
+                toast.success(response.data.message);
                 navigate('/login');
             }
-            if (response.status === 400) {
-                toast.success(response.data);
-            }
         } catch (err) {
-            console.error(err);
-            toast.error('Server Error');
+            if (err.response && err.response.status === 400) {
+                toast.error(err.response.data.message);
+            } else {
+                toast.error('Server error from front end');
+            }
         }
     };
+
 
     const password = watch('password');
 
