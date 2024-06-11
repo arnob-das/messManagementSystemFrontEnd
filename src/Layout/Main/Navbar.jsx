@@ -1,8 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+    const user = useSelector((state) => state.auth);
+    console.log(user);
     return (
         <div className="navbar bg-base-100 px-6 md:px-28">
             <div className="navbar-start">
@@ -13,7 +16,12 @@ const Navbar = () => {
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/user-dashboard">User Dashboard</Link></li>
                     <li><Link to="/manager-dashboard">Manager Dashboard</Link></li>
-                    <li><Link to="/login">Login</Link></li>
+                    {
+                        user.isAuthenticated && user.user.email && <li><Link to="/profile">{user.user.fullName}</Link></li>
+                    }
+                    {
+                        !user.isAuthenticated && <li><Link to="/login">Login</Link></li>
+                    }
                 </ul>
             </div>
         </div>
