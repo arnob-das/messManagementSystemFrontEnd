@@ -24,6 +24,21 @@ export const login = createAsyncThunk(
     }
 );
 
+export const register = createAsyncThunk(
+    'auth/register',
+    async (userData, { rejectWithValue }) => {
+        try {
+            const response = await axios.post('http://localhost:5000/user/register', userData);
+            return response.data.message;
+        } catch (error) {
+            if (error.response) {
+                return rejectWithValue(error.response.data.message);
+            }
+            return rejectWithValue("Server error");
+        }
+    }
+);
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -51,6 +66,18 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
                 state.user = null;
+            })
+            .addCase(register.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(register.fulfilled, (state) => {
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(register.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
             });
     },
 });

@@ -1,35 +1,37 @@
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { register as registerUser } from '../../../features/auth/authSlice';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Registration = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // form submit
     const onSubmit = async (data) => {
-        // check if password and confirm password match
         if (data.password !== data.confirmPassword) {
             toast.error('Passwords do not match');
             return;
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/user/register', data);
-            if (response.status === 201) {
-                toast.success(response.data.message);
+            const resultAction = await dispatch(registerUser(data));
+            if (registerUser.fulfilled.match(resultAction)) {
+                toast.success(resultAction.payload);
                 navigate('/login');
+            } else {
+                if (resultAction.payload) {
+                    toast.error(resultAction.payload);
+                } else {
+                    toast.error('Registration failed');
+                }
             }
         } catch (err) {
-            if (err.response && err.response.status === 400) {
-                toast.error(err.response.data.message);
-            } else {
-                toast.error('Server error from front end');
-            }
+            toast.error('Server error');
         }
     };
-
 
     const password = watch('password');
 
