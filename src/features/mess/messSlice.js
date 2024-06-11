@@ -5,12 +5,13 @@ import axios from 'axios';
 export const createMess = createAsyncThunk('mess/createMess', async (messData, { getState, rejectWithValue }) => {
     try {
         const { auth } = getState();
-        const response = await axios.post('http://localhost:5000/mess/createMess', {
+        const response = await axios.post('http://localhost:5000/mess/create', {
             ...messData,
             managerId: [auth.user._id],
             members: [{ userId: auth.user._id, joinDate: new Date(), seatRent: 0 }],
         });
-        return response.data;
+        console.log(response);
+        return response.data.mess;
     } catch (error) {
         return rejectWithValue(error.response.data);
     }
@@ -20,7 +21,7 @@ const messSlice = createSlice({
     name: 'mess',
     initialState: {
         mess: null,
-        status:null,
+        status: null,
         error: false
     },
     reducers: {},
@@ -32,12 +33,12 @@ const messSlice = createSlice({
             .addCase(createMess.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.mess = action.payload;
-                state.error=false
+                state.error = false
             })
             .addCase(createMess.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
-                state.mess=null
+                state.mess = null
             });
     },
 });

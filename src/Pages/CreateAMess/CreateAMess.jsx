@@ -1,14 +1,45 @@
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { createMess } from '../../features/mess/messSlice';
+import { useNavigate } from 'react-router-dom';
+import { updateUserById } from '../../features/auth/authSlice';
 
 const CreateAMess = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const onSubmit = (data) => {
-        // Handle form submission
-        console.log(data);
-        toast.success("Mess created successfully!");
+    const user = useSelector((state) => state.auth.user);
+
+    const onSubmit = async (data) => {
+        try {
+            const resultAction = await dispatch(createMess(data));
+
+            if (createMess.fulfilled.match(resultAction)) {
+                toast.success(resultAction.payload.message);
+                // After successful mess creation
+                // update the user to manager
+                const updateUserData = {
+                    role: "manager",
+                    approved: true,
+                    currentMessId: resultAction.payload._id // Access created mess ID from payload
+                };
+                const updateUserAction = await dispatch(updateUserById({ userId: user._id, userData: updateUserData }));
+
+                if (updateUserById.fulfilled.match(updateUserAction)) {
+                    toast.success(updateUserAction.payload.message);
+                    navigate('/user-dashboard');
+                } else {
+                    toast.error("Failed to update user info");
+                }
+            } else {
+                toast.error("Failed to create mess");
+            }
+        } catch (error) {
+            toast.error("Server error");
+        }
     };
 
     return (
@@ -67,7 +98,7 @@ const CreateAMess = () => {
                                 type="text"
                                 placeholder="Enter Owner Phone Number"
                                 className="input input-bordered"
-                                {...register('messOwnerPhoneNumber', { 
+                                {...register('messOwnerPhoneNumber', {
                                     required: 'Phone number is required',
                                     pattern: {
                                         value: /^[0-9]{10}$/,

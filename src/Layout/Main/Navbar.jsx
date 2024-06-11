@@ -5,7 +5,9 @@ import { toast } from "react-toastify";
 
 const Navbar = () => {
     const user = useSelector((state) => state.auth);
+    const mess = useSelector((state) => state.mess);
     console.log(user);
+    console.log(mess.mess);
 
     const dispatch = useDispatch();
 

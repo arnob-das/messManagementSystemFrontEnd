@@ -23,7 +23,7 @@ const ProfilePage = () => {
                         <p><strong>Phone Number:</strong>{user?.user?.phoneNumber}</p>
                         <p><strong>National ID:</strong>{user?.user?.nationalId}</p>
                         <p><strong>Role:</strong>{user?.user?.role}</p>
-                        <p><strong>Current Mess:</strong> Not Assigned</p>
+                        <p><strong>Current Mess:</strong>{user?.user?.currentMessId || "Not Assignmed"}</p>
                     </div>
                     <h3 className="text-xl font-bold">Update Information</h3>
                     <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-4">
