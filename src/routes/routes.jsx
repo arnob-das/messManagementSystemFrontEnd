@@ -18,6 +18,8 @@ import AssignBills from "../Pages/ManagerPanel/AssignBills/AssignBills"
 import ViewMeal from "../Pages/ManagerPanel/ViewMeal/ViewMeal"
 import ReceiveBills from "../Pages/ManagerPanel/ReceiveBills/ReceiveBills"
 import MessPaymentHistory from "../Pages/ManagerPanel/MessPaymentHistory/MessPaymentHistory";
+import Profile from "../Pages/Profile/Profile";
+import LoggedInUserRoute from "../utils/PrivateRoute/LoggedInUserRoute";
 
 const routes = createBrowserRouter([
   {
@@ -35,6 +37,13 @@ const routes = createBrowserRouter([
       {
         path: "/register",
         element: <Registration />,
+      },
+      {
+        path: "/profile",
+        element:
+          (<LoggedInUserRoute>
+            <Profile />
+          </LoggedInUserRoute>),
       }
     ],
   },
