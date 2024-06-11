@@ -18,11 +18,11 @@ const ProfilePage = () => {
                 <div className="card-body">
                     <h2 className="text-center text-2xl font-bold">Profile</h2>
                     <div className="my-4">
-                        <p><strong>Full Name:</strong>{user?.fullName}</p>
-                        <p><strong>Email:</strong>{user?.email}</p>
-                        <p><strong>Phone Number:</strong>{user?.phoneNumber}</p>
-                        <p><strong>National ID:</strong>{user?.nationalId}</p>
-                        <p><strong>Role:</strong>{user?.role}</p>
+                        <p><strong>Full Name:</strong>{user?.user?.fullName}</p>
+                        <p><strong>Email:</strong>{user?.user?.email}</p>
+                        <p><strong>Phone Number:</strong>{user?.user?.phoneNumber}</p>
+                        <p><strong>National ID:</strong>{user?.user?.nationalId}</p>
+                        <p><strong>Role:</strong>{user?.user?.role}</p>
                         <p><strong>Current Mess:</strong> Not Assigned</p>
                     </div>
                     <h3 className="text-xl font-bold">Update Information</h3>

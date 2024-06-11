@@ -5,9 +5,10 @@ import { useSelector } from "react-redux";
 const LoggedInUserRoute = ({ children }) => {
     const { pathname } = useLocation();
 
-    const { isAuthenticated } = useSelector(state => state.auth);
+    const { isAuthenticated} = useSelector(state => state.auth);
 
-    if (!isAuthenticated) {
+    // if logged in user, then they can not go to login and register page.
+    if (!isAuthenticated ) {
         return <Navigate to='/login' state={{ path: pathname }} />;
     }
 

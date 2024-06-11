@@ -36,7 +36,9 @@ const routes = createBrowserRouter([
       },
       {
         path: "/register",
-        element: <Registration />,
+        element: (
+          <Registration />
+        ),
       },
       {
         path: "/profile",
@@ -50,7 +52,9 @@ const routes = createBrowserRouter([
   // user dashboard
   {
     path: "/user-dashboard",
-    element: <UserDashboard />,
+    element: (
+      <UserDashboard />
+    ),
     children: [
       {
         path: "joinAMess",
