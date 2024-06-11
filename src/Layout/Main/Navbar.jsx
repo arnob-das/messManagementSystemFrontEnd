@@ -14,8 +14,12 @@ const Navbar = () => {
             <div className="navbar-end">
                 <ul className="menu menu-horizontal px-1 md:flex">
                     <li><Link to="/">Home</Link></li>
-                    <li><Link to="/user-dashboard">User Dashboard</Link></li>
-                    <li><Link to="/manager-dashboard">Manager Dashboard</Link></li>
+                    {
+                        user.isAuthenticated && (user.user.role === "user" || user.user.role === "manager") && <li><Link to="/user-dashboard">User Dashboard</Link></li>
+                    }
+                    {
+                        user.isAuthenticated && user.user.role === "manager" && <li><Link to="/manager-dashboard">Manager Dashboard</Link></li>
+                    }
                     {
                         user.isAuthenticated && user.user.email && <li><Link to="/profile">{user.user.fullName}</Link></li>
                     }
