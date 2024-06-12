@@ -13,10 +13,13 @@ const Login = () => {
     const onSubmit = async (data) => {
         try {
             const resultAction = await dispatch(login(data));
+
             if (login.fulfilled.match(resultAction)) {
                 toast.success("Login successful");
+                
                 navigate('/user-dashboard');
-            } else {
+            }
+            else {
                 if (resultAction.payload) {
                     toast.error(resultAction.payload);
                 } else {

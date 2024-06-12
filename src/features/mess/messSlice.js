@@ -2,6 +2,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+
+// create mess
 export const createMess = createAsyncThunk('mess/createMess', async (messData, { getState, rejectWithValue }) => {
     try {
         const { auth } = getState();
@@ -14,6 +16,16 @@ export const createMess = createAsyncThunk('mess/createMess', async (messData, {
         return response.data.mess;
     } catch (error) {
         return rejectWithValue(error.response.data);
+    }
+});
+
+// get mess by id
+export const getMessById = createAsyncThunk('mess/getMessById', async (id, { rejectWithValue }) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/mess/${id}`);
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response.data.message || "Failed to fetch mess data");
     }
 });
 
@@ -39,6 +51,19 @@ const messSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.payload;
                 state.mess = null
+            })
+            .addCase(getMessById.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(getMessById.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.mess = action.payload;
+                state.error = false;
+            })
+            .addCase(getMessById.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+                state.mess = null;
             });
     },
 });
