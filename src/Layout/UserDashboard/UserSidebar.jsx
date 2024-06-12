@@ -36,8 +36,8 @@ const Sidebar = () => {
                         </>
                         :
                         <>
-                            <Link to="addMeal" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">
-                                Add Meal
+                            <Link to="meal" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">
+                                Meal
                             </Link>
                             <Link to="addDeposit" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">
                                 Add Deposit
