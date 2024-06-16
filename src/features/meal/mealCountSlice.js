@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Fetch meals by user ID, month, and year
-export const fetchMeals = createAsyncThunk('mealCount/fetchMeals', async ({ userId, month, year }, { rejectWithValue }) => {
+// Get meals by user ID, month, year, and mess ID
+export const getMeals = createAsyncThunk('meals/fetchMeals', async ({ currentMessId, userId, month, year }, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`http://localhost:5000/mealCount?userId=${userId}&month=${month}&year=${year}`);
+        const response = await axios.get(`http://localhost:5000/mealCount/getMeals?currentMessId=${currentMessId}&userId=${userId}&month=${month}&year=${year}`);
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to fetch meals");
@@ -15,31 +15,50 @@ export const fetchMeals = createAsyncThunk('mealCount/fetchMeals', async ({ user
 export const addMeal = createAsyncThunk('mealCount/addMeal', async (mealData, { rejectWithValue }) => {
     try {
         const response = await axios.post('http://localhost:5000/mealCount/addMeal', mealData);
-        console.log(response.data);
-        return response.data;
+        return response.data.mealCount; // Return the updated mealCount directly
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to add meal");
+    }
+});
+
+// Edit a meal by meal ID
+export const editMeal = createAsyncThunk('mealCount/editMeal', async ({ mealId, mealData }, { rejectWithValue }) => {
+    try {
+        const response = await axios.put(`http://localhost:5000/mealCount/editMeal`, { mealId, meal: mealData });
+        return response.data.mealCount; // Return the updated mealCount directly
+    } catch (error) {
+        return rejectWithValue(error.response.data.message || "Failed to edit meal");
+    }
+});
+
+// Delete a meal by meal ID
+export const deleteMeal = createAsyncThunk('mealCount/deleteMeal', async ({ mealId }, { rejectWithValue }) => {
+    try {
+        const response = await axios.delete(`http://localhost:5000/mealCount/deleteMeal`, { data: { mealId } });
+        return response.data.mealCount; // Return the updated mealCount directly
+    } catch (error) {
+        return rejectWithValue(error.response.data.message || "Failed to delete meal");
     }
 });
 
 const mealSlice = createSlice({
     name: 'mealCount',
     initialState: {
-        mealCount: [],
+        mealCount: { meals: [] },
         status: null,
         error: null,
     },
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchMeals.pending, (state) => {
+            .addCase(getMeals.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(fetchMeals.fulfilled, (state, action) => {
+            .addCase(getMeals.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.mealCount = action.payload;
             })
-            .addCase(fetchMeals.rejected, (state, action) => {
+            .addCase(getMeals.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             })
@@ -48,9 +67,34 @@ const mealSlice = createSlice({
             })
             .addCase(addMeal.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.mealCount.push(action.payload);
+                state.mealCount = action.payload;
+                state.error = null;
             })
             .addCase(addMeal.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            .addCase(editMeal.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(editMeal.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.mealCount = action.payload; 
+                state.error = null;
+            })
+            .addCase(editMeal.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            .addCase(deleteMeal.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(deleteMeal.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.mealCount = action.payload; 
+                state.error = null;
+            })
+            .addCase(deleteMeal.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });

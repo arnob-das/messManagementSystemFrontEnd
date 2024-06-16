@@ -1,4 +1,3 @@
-// components/MealModal.js
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMeal } from '../../features/meal/mealCountSlice';
@@ -26,7 +25,6 @@ const MealModal = ({ isOpen, onClose }) => {
             year
 
         }
-        console.log(mealData);
         dispatch(addMeal(mealData)).then(()=>{
             reset();
             onClose();
@@ -46,15 +44,15 @@ const MealModal = ({ isOpen, onClose }) => {
                     </div>
                     <div className="form-control">
                         <label className="label">Breakfast</label>
-                        <input type="number" className="input input-bordered" {...register('breakfast', { required: true })} />
+                        <input type="number" defaultValue={0} className="input input-bordered" {...register('breakfast', { required: true })} />
                     </div>
                     <div className="form-control">
                         <label className="label">Lunch</label>
-                        <input type="number" className="input input-bordered" {...register('lunch', { required: true })} />
+                        <input type="number" defaultValue={0} className="input input-bordered" {...register('lunch', { required: true })} />
                     </div>
                     <div className="form-control">
                         <label className="label">Dinner</label>
-                        <input type="number" className="input input-bordered" {...register('dinner', { required: true })} />
+                        <input type="number" defaultValue={0} className="input input-bordered" {...register('dinner', { required: true })} />
                     </div>
                     <div className="modal-action">
                         <button type="button" className="btn" onClick={onClose}>Cancel</button>
