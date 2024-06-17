@@ -39,8 +39,8 @@ const Sidebar = () => {
                             <Link to="meal" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                                 <FontAwesomeIcon icon={faUtensils} className="mr-3" /> Meal
                             </Link>
-                            <Link to="addDeposit" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
-                                <FontAwesomeIcon icon={faDollarSign} className="mr-3" /> Add Deposit
+                            <Link to="mealDeposit" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
+                                <FontAwesomeIcon icon={faDollarSign} className="mr-3" /> Meal Deposit
                             </Link>
                             <Link to="messMembers" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                                 <FontAwesomeIcon icon={faUsers} className="mr-3" /> Mess Members

@@ -7,7 +7,6 @@ import Registration from "../Pages/Authentication/Registration/Registration";
 import JoinAMess from "../Pages/JoinAMess/JoinAMess";
 import CreateAMess from "../Pages/CreateAMess/CreateAMess";
 import Meal from "../Pages/userPanel/Meal/Meal"
-import AddDeposit from "../Pages/userPanel/AddDeposit/AddDeposit";
 import MessMembers from "../Pages/userPanel/MessMembers/MessMembers";
 import PayCost from "../Pages/userPanel/PayCost/PayCost";
 import UserPaymentHistory from "../Pages/userPanel/UserPaymentHistory/UserPaymentHistory";
@@ -20,6 +19,7 @@ import ReceiveBills from "../Pages/ManagerPanel/ReceiveBills/ReceiveBills"
 import MessPaymentHistory from "../Pages/ManagerPanel/MessPaymentHistory/MessPaymentHistory";
 import Profile from "../Pages/Profile/Profile";
 import LoggedInUserRoute from "../utils/PrivateRoute/LoggedInUserRoute";
+import MealDeposit from "../Pages/userPanel/MealDeposit/MealDeposit";
 
 const routes = createBrowserRouter([
   {
@@ -69,8 +69,8 @@ const routes = createBrowserRouter([
         element: <Meal />
       },
       {
-        path: "addDeposit",
-        element: <AddDeposit />
+        path: "mealDeposit",
+        element: <MealDeposit />
       },
       {
         path: "messMembers",
