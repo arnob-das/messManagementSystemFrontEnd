@@ -22,9 +22,9 @@ export const getMessMealDeposits = createAsyncThunk('mealDeposits/getMealDeposit
 });
 
 // Get all meal deposits for a specific user
-export const getUserMealDeposits = createAsyncThunk('mealDeposits/getUserMealDeposits', async ({ userId }, { rejectWithValue }) => {
+export const getUserMealDeposit = createAsyncThunk('mealDeposits/getUserMealDeposits', async ({ userId, date, currentMessId }, { rejectWithValue }) => {
     try {
-        const response = await axios.get('http://localhost:5000/mealDeposit/getUserMealDeposits', { params: { userId } });
+        const response = await axios.get('http://localhost:5000/mealDeposit/getUserMealDeposits', { params: { userId, date, currentMessId } });
         return response.data.mealDeposits;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to fetch user meal deposits");
@@ -32,9 +32,19 @@ export const getUserMealDeposits = createAsyncThunk('mealDeposits/getUserMealDep
 });
 
 // Edit a meal deposit by deposit ID
-export const editMealDeposit = createAsyncThunk('mealDeposits/editMealDeposit', async ({ depositId, depositData }, { rejectWithValue }) => {
+export const editMealDeposit = createAsyncThunk('mealDeposits/editMealDeposit', async ({ depositId, depositAmount }, { rejectWithValue }) => {
     try {
-        const response = await axios.put(`http://localhost:5000/mealDeposit/editMealDeposit`, { depositId, deposit: depositData });
+        const response = await axios.put(`http://localhost:5000/mealDeposit/editMealDeposit`, { depositId, depositAmount });
+        return response.data.mealDeposit;
+    } catch (error) {
+        return rejectWithValue(error.response.data.message || "Failed to edit meal deposit");
+    }
+});
+
+// Edit a meal deposit by deposit ID
+export const editMealDepositStatus = createAsyncThunk('mealDeposits/editMealDepositStatus', async ({ depositId, status }, { rejectWithValue }) => {
+    try {
+        const response = await axios.put(`http://localhost:5000/mealDeposit/updateMealDepositStatus`, { depositId, status });
         return response.data.mealDeposit;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to edit meal deposit");
@@ -89,15 +99,15 @@ const mealDepositSlice = createSlice({
                 state.error = action.payload;
             })
             // Get user meal deposits
-            .addCase(getUserMealDeposits.pending, (state) => {
+            .addCase(getUserMealDeposit.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(getUserMealDeposits.fulfilled, (state, action) => {
+            .addCase(getUserMealDeposit.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.mealDeposit = action.payload;
                 state.error = null;
             })
-            .addCase(getUserMealDeposits.rejected, (state, action) => {
+            .addCase(getUserMealDeposit.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             })
@@ -107,14 +117,23 @@ const mealDepositSlice = createSlice({
             })
             .addCase(editMealDeposit.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                // const index = state.mealDeposit.findIndex(deposit => deposit._id === action.payload._id);
-                // if (index !== -1) {
-                //     state.mealDeposit[index] = action.payload;
-                // }
                 state.mealDeposit = action.payload;
                 state.error = null;
             })
             .addCase(editMealDeposit.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            // Edit meal deposit status
+            .addCase(editMealDepositStatus.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(editMealDepositStatus.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.mealDeposit = action.payload;
+                state.error = null;
+            })
+            .addCase(editMealDepositStatus.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             })
