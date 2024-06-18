@@ -6,7 +6,6 @@ import { getMeals } from "../../../features/meal/mealCountSlice";
 const UserPanel = () => {
     const user = useSelector((state) => state.auth);
     const mess = useSelector((state) => state.mess);
-
     const dispatch = useDispatch();
 
     const currentMonth = new Date().getMonth() + 1;
@@ -14,13 +13,16 @@ const UserPanel = () => {
 
     useEffect(() => {
         if (user.user.currentMessId) {
-            dispatch(getMessById(user.user.currentMessId));
+            dispatch(getMessById({ id: user.user.currentMessId }));
             dispatch(getMeals({ userId: user.user._id, month: currentMonth, year: currentYear, currentMessId: user.user.currentMessId }));
         }
-    }, [currentMonth, currentYear, dispatch, user.user._id, user.user.currentMessId,]);
+    }, [currentMonth, currentYear, dispatch, user.user._id, user.user.currentMessId]);
+
+    console.log(mess);
 
     return (
         <div>
+            <p>{user?.user?.fullName}</p>
             <p>{mess.mess?.messName}</p>
         </div>
     );

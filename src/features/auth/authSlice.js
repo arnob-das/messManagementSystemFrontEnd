@@ -38,6 +38,22 @@ export const register = createAsyncThunk(
     }
 );
 
+export const getUserById = createAsyncThunk(
+    'auth/getUserById',
+    async ({id}, { rejectWithValue }) => {
+        console.log(id);
+        try {
+            const response = await axios.get(`http://localhost:5000/user/getUserById/${id}`);
+            return response.data.message;
+        } catch (error) {
+            if (error.response) {
+                return rejectWithValue(error.response.data.message);
+            }
+            return rejectWithValue("Server error");
+        }
+    }
+);
+
 // New thunk action to update user
 export const updateUserById = createAsyncThunk(
     'auth/updateUser',

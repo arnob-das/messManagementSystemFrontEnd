@@ -1,0 +1,1 @@
+after join request, manager will approve. then user document will be updated like currentMessId and others.

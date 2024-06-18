@@ -53,7 +53,9 @@ const routes = createBrowserRouter([
   {
     path: "/user-dashboard",
     element: (
-      <UserDashboard />
+      <LoggedInUserRoute>
+        <UserDashboard />
+      </LoggedInUserRoute>
     ),
     children: [
       {
@@ -89,7 +91,11 @@ const routes = createBrowserRouter([
   // manager dashboard
   {
     path: "/manager-dashboard",
-    element: <ManagerDashboard />,
+    element: (
+      <LoggedInUserRoute>
+        <ManagerDashboard />
+      </LoggedInUserRoute>
+    ),
     children: [
       {
         path: "approveUsers",
