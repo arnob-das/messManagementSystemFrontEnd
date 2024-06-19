@@ -64,12 +64,15 @@ const MealDeposit = () => {
                                         className="input input-bordered"
                                     />
                                 </div>
-                                <div className="card-actions justify-start">
-                                    <button type="submit" className="btn btn-primary">
-                                        <FontAwesomeIcon icon={faPlus} className="mr-2" />
-                                        Add Deposit
-                                    </button>
-                                </div>
+                                {
+                                    user.approved &&
+                                    <div className="card-actions justify-start">
+                                        <button type="submit" className="btn btn-primary">
+                                            <FontAwesomeIcon icon={faPlus} className="mr-2" />
+                                            Add Deposit
+                                        </button>
+                                    </div>
+                                }
                             </form>
                         </div>
                     </div>
