@@ -20,6 +20,7 @@ import MessPaymentHistory from "../Pages/ManagerPanel/MessPaymentHistory/MessPay
 import Profile from "../Pages/Profile/Profile";
 import LoggedInUserRoute from "../utils/PrivateRoute/LoggedInUserRoute";
 import MealDeposit from "../Pages/userPanel/MealDeposit/MealDeposit";
+import SetRent from "../Pages/ManagerPanel/SetRent/SetRent";
 
 const routes = createBrowserRouter([
   {
@@ -104,6 +105,10 @@ const routes = createBrowserRouter([
       {
         path: "approveDeposits",
         element: <ApproveDeposits />
+      },
+      {
+        path: "setRent",
+        element: <SetRent />
       },
       {
         path: "assignBills",

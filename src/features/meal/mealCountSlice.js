@@ -11,6 +11,21 @@ export const getMeals = createAsyncThunk('meals/fetchMeals', async ({ currentMes
     }
 });
 
+// Get meals by user ID, month, year, and mess ID
+export const getAllMessMembersMeals = createAsyncThunk('meals/getAllMessMembersMeals', async ({ currentMessId, month, year }, { rejectWithValue }) => {
+    console.log(currentMessId)
+    console.log(month)
+    console.log(year)
+    const api = `http://localhost:5000/mealCount/getAllMessMembersMeals/${currentMessId}/${month}/${year}`;
+    console.log(api)
+    try {
+        const response = await axios.get(`http://localhost:5000/mealCount/getAllMessMembersMeals/${currentMessId}/${month}/${year}`);
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response.data.message || "Failed to fetch meals");
+    }
+});
+
 // Add a new meal
 export const addMeal = createAsyncThunk('mealCount/addMeal', async (mealData, { rejectWithValue }) => {
     try {

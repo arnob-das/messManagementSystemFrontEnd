@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-
-// create mess
+// Create mess
 export const createMess = createAsyncThunk('mess/createMess', async (messData, { getState, rejectWithValue }) => {
     try {
         const { auth } = getState();
@@ -27,12 +26,10 @@ export const addMemberToMess = createAsyncThunk('mess/addMember', async ({ messI
         }
         return rejectWithValue("Server error");
     }
-}
-);
+});
 
-// get mess by id
+// Get mess by id
 export const getMessById = createAsyncThunk('mess/getMessById', async ({ id }, { rejectWithValue }) => {
-    console.log(id)
     try {
         const response = await axios.get(`http://localhost:5000/mess/${id}`);
         return response.data.mess;
@@ -41,7 +38,7 @@ export const getMessById = createAsyncThunk('mess/getMessById', async ({ id }, {
     }
 });
 
-// Async thunk to fetch unapproved users
+// Fetch unapproved users
 export const getUnapprovedUsers = createAsyncThunk(
     'mess/fetchUnapprovedUsers',
     async ({messId}) => {
@@ -54,12 +51,51 @@ export const getUnapprovedUsers = createAsyncThunk(
     }
 );
 
+// Fetch unapproved users
+export const getApprovedUsers = createAsyncThunk(
+    'mess/fetchApprovedUsers',
+    async ({messId}) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/mess/getApprovedMembers/${messId}`);
+            return response.data;
+        } catch (error) {
+            throw Error(error.response.data.message || 'Failed to fetch unapproved users');
+        }
+    }
+);
+
+export const getApprovedMembersSeatRents = createAsyncThunk(
+    'mess/fetchApprovedMembersSeatRents',
+    async ({messId}) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/mess/getApprovedMembersSeatRents/${messId}`);
+            return response.data;
+        } catch (error) {
+            throw Error(error.response.data.message || 'Failed to fetch seat rents');
+        }
+    }
+);
+
+// Set seat rent for a member
+export const updateSeatRentForMember = createAsyncThunk(
+    'mess/updateSeatRentForMember',
+    async ({ messId, userId, seatRent }, { rejectWithValue }) => {
+        try {
+            const response = await axios.put('http://localhost:5000/mess/updateSeatRentForUser', { messId, userId, seatRent });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data.message || "Failed to update seat rent for member");
+        }
+    }
+);
+
 const messSlice = createSlice({
     name: 'mess',
     initialState: {
         mess: null,
         status: null,
-        error: false
+        error: false,
+        approvedMembersSeatRents: [],
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -70,12 +106,12 @@ const messSlice = createSlice({
             .addCase(createMess.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.mess = action.payload;
-                state.error = false
+                state.error = false;
             })
             .addCase(createMess.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
-                state.mess = null
+                state.mess = null;
             })
             .addCase(getMessById.pending, (state) => {
                 state.status = 'loading';
@@ -102,12 +138,20 @@ const messSlice = createSlice({
             .addCase(addMemberToMess.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
+            })
+            .addCase(updateSeatRentForMember.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(updateSeatRentForMember.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.mess = action.payload.mess;
+                state.error = false;
+            })
+            .addCase(updateSeatRentForMember.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
             });
     },
 });
 
 export default messSlice.reducer;
-
-
-
-

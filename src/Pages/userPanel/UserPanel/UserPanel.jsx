@@ -18,8 +18,6 @@ const UserPanel = () => {
         }
     }, [currentMonth, currentYear, dispatch, user.user._id, user.user.currentMessId]);
 
-    console.log(mess);
-
     return (
         <div>
             <p>{user?.user?.fullName}</p>
