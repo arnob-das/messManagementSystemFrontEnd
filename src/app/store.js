@@ -4,6 +4,7 @@ import messSlice from "../features/mess/messSlice";
 import mealCountSlice from "../features/meal/mealCountSlice";
 import mealDepositSlice from "../features/meal/mealDepositSlice";
 import utilityBillSclice from "../features/utilityBill/utilityBillSclice";
+import gorceryCostSlice from "../features/groceryCost/gorceryCostSlice";
 
 const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
         mess: messSlice,
         mealCount:mealCountSlice,
         mealDeposit:mealDepositSlice,
-        utilityBill:utilityBillSclice
+        utilityBill:utilityBillSclice,
+        groceryCosts:gorceryCostSlice
     }
 })
 

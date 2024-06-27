@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUtensils, faDollarSign, faUsers, faMoneyBill, faHistory, faSignInAlt, faUserPlus, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUtensils, faDollarSign, faUsers, faMoneyBill, faHistory, faSignInAlt, faUserPlus, faBars, faTimes, faTachometerAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +24,7 @@ const Sidebar = () => {
                 <Link to="/" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                     <FontAwesomeIcon icon={faHome} className="mr-3" /> Home
                 </Link>
+
                 {
                     isAuthenticated && user.role === "user" && !user.approved && user.currentMessId == null ?
                         <>
@@ -36,14 +37,20 @@ const Sidebar = () => {
                         </>
                         :
                         <>
+                            <Link to="/user-dashboard" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
+                                <FontAwesomeIcon icon={faTachometerAlt} className="mr-3" /> Dashboard
+                            </Link>
                             <Link to="meal" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                                 <FontAwesomeIcon icon={faUtensils} className="mr-3" /> Meal
                             </Link>
                             <Link to="mealDeposit" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                                 <FontAwesomeIcon icon={faDollarSign} className="mr-3" /> Meal Deposit
                             </Link>
-                            <Link to="messMembers" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
-                                <FontAwesomeIcon icon={faUsers} className="mr-3" /> Mess Members
+                            <Link to="mealDeposit" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
+                                <FontAwesomeIcon icon={faDollarSign} className="mr-3" /> Meal Deposit
+                            </Link>
+                            <Link to="addInventory" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
+                                <FontAwesomeIcon icon={faUsers} className="mr-3" /> Manage Grocery
                             </Link>
                             <Link to="payCost" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                                 <FontAwesomeIcon icon={faMoneyBill} className="mr-3" /> Pay Cost

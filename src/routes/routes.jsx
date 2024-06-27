@@ -21,6 +21,7 @@ import Profile from "../Pages/Profile/Profile";
 import LoggedInUserRoute from "../utils/PrivateRoute/LoggedInUserRoute";
 import MealDeposit from "../Pages/userPanel/MealDeposit/MealDeposit";
 import SetRent from "../Pages/ManagerPanel/SetRent/SetRent";
+import AddInventory from "../Pages/userPanel/AddInventory/AddInventory";
 
 const routes = createBrowserRouter([
   {
@@ -74,6 +75,10 @@ const routes = createBrowserRouter([
       {
         path: "mealDeposit",
         element: <MealDeposit />
+      },
+      {
+        path: "addInventory",
+        element: <AddInventory />
       },
       {
         path: "messMembers",
