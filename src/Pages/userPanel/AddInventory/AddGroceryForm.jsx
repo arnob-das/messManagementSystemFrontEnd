@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { addGroceryCost, getGroceryCost } from '../../../features/groceryCost/gorceryCostSlice';
 import { toast } from "react-toastify";
 
-const AddGroceryForm = ({ currentMessId, month, year }) => {
+const AddGroceryForm = ({ currentMessId, month, year, userId }) => {
     const { register, handleSubmit, reset } = useForm();
     const dispatch = useDispatch();
 
@@ -11,7 +11,7 @@ const AddGroceryForm = ({ currentMessId, month, year }) => {
         data.messId = currentMessId;
         data.month = month;
         data.year = year;
-        data.groceries = [{ groceryDetails: data.groceryDetails, price: parseFloat(data.price), date: data.date }];
+        data.groceries = [{ groceryDetails: data.groceryDetails, price: parseFloat(data.price), date: data.date, userId: userId }];
         try {
             await dispatch(addGroceryCost(data));
             reset();

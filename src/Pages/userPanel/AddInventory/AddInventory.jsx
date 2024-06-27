@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGroceryCost, deleteGroceryCost } from '../../../features/groceryCost/gorceryCostSlice';
 import { toast } from "react-toastify";
-import AddGroceryForm from './AddGroceryForm';
 import EditGroceryForm from './EditGroceryForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import AddGroceryForm from './AddGroceryForm';
 
 const AddInventory = () => {
     const dispatch = useDispatch();
@@ -62,7 +62,7 @@ const AddInventory = () => {
                         )}
                         <div className="bg-white p-6 rounded-lg shadow-md">
                             <h2 className="card-title mb-5">Add Grocery</h2>
-                            <AddGroceryForm currentMessId={currentMessId} month={month} year={year} />
+                            <AddGroceryForm userId={user._id} currentMessId={currentMessId} month={month} year={year} />
                         </div>
                     </div>
                     <div className="md:col-span-2 bg-white p-6 rounded-lg shadow-md">
@@ -87,12 +87,18 @@ const AddInventory = () => {
                                                 <td>{item.groceryDetails}</td>
                                                 <td>{item.price.toFixed(2)} Taka</td>
                                                 <td className="flex space-x-2">
-                                                    <button onClick={() => setEditItem(item)} className="btn btn-sm btn-primary">
-                                                        <FontAwesomeIcon icon={faEdit} className="mr-2" />
-                                                    </button>
-                                                    <button onClick={() => setDeleteItem(item)} className="btn btn-sm btn-error">
-                                                        <FontAwesomeIcon icon={faTrash} className="mr-2" />
-                                                    </button>
+                                                    {
+                                                        user._id === item.userId &&
+                                                        <div>
+                                                            <button onClick={() => setEditItem(item)} className="btn btn-sm btn-primary">
+                                                                <FontAwesomeIcon icon={faEdit} className="mr-2" />
+                                                            </button>
+
+                                                            <button onClick={() => setDeleteItem(item)} className="btn btn-sm btn-error">
+                                                                <FontAwesomeIcon icon={faTrash} className="mr-2" />
+                                                            </button>
+                                                        </div>
+                                                    }
                                                 </td>
                                             </tr>
                                         )) : <tr><td colSpan="4" className="text-center">No grocery cost found.</td></tr>
