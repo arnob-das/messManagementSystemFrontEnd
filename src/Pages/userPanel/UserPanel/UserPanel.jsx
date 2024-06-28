@@ -60,7 +60,7 @@ const Dashboard = () => {
                 messId: user.user.currentMessId,
                 userId: user.user._id
             }));
-            setRoomRent(response.payload.seatRent);
+            setRoomRent(response.payload?.seatRent ?? 0);
         };
 
         if (user.user.currentMessId) {
@@ -77,7 +77,7 @@ const Dashboard = () => {
                 month: selectedMonth,
                 year: selectedYear
             }));
-            setTotalMealForUser(response.payload.totalMeals);
+            setTotalMealForUser(response.payload?.totalMeals ?? 0);
         };
 
         if (user.user.currentMessId) {
@@ -93,7 +93,7 @@ const Dashboard = () => {
                 month: selectedMonth,
                 year: selectedYear
             }));
-            setTotalMealForMess(response.payload.totalMeals);
+            setTotalMealForMess(response.payload?.totalMeals ?? 0);
         };
 
         if (user.user.currentMessId) {
@@ -109,7 +109,7 @@ const Dashboard = () => {
                 month: selectedMonth,
                 year: selectedYear
             }));
-            setTotalGroceryCost(response.payload.totalCost || 0);
+            setTotalGroceryCost(response.payload?.totalCost ?? 0);
         };
 
         if (user.user.currentMessId) {
@@ -126,7 +126,7 @@ const Dashboard = () => {
                 year: selectedYear,
                 userId: user.user._id
             }));
-            setTotalGroceryCostForUser(response.payload.totalCost);
+            setTotalGroceryCostForUser(response.payload?.totalCost ?? 0);
         };
 
         if (user.user.currentMessId) {
@@ -143,7 +143,7 @@ const Dashboard = () => {
                 month: selectedMonth,
                 year: selectedYear,
             }));
-            setTotalUtilityBillCost(response.payload.totalUtilityCost);
+            setTotalUtilityBillCost(response.payload?.totalUtilityCost ?? 0);
         };
 
         if (user.user.currentMessId) {
@@ -233,7 +233,7 @@ const Dashboard = () => {
                                     <h2 className="card-title text-yellow-700">
                                         <FontAwesomeIcon icon={faListNumeric} className="mr-2" /> Total Meals
                                     </h2>
-                                    <p className="text-yellow-700">{totalMealForUser}</p>
+                                    <p className="text-yellow-700">{totalMealForUser || 0}</p>
                                 </div>
                             </div>
                             <div className="card bg-red-100 shadow-xl">

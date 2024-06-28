@@ -124,6 +124,19 @@ export const updateUserRole = createAsyncThunk('mess/updateUserRole', async ({ m
     }
 });
 
+export const leaveMessForUser = createAsyncThunk('mess/leaveMess', async ({ messId, userId }, { rejectWithValue }) => {
+    console.log(userId,messId);
+    try {
+        const response = await axios.put('http://localhost:5000/mess/leave', { messId, userId });
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            return rejectWithValue(error.response.data.message);
+        }
+        return rejectWithValue("Server error");
+    }
+});
+
 const messSlice = createSlice({
     name: 'mess',
     initialState: {
@@ -183,6 +196,18 @@ const messSlice = createSlice({
                 state.error = false;
             })
             .addCase(updateSeatRentForMember.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            .addCase(leaveMessForUser.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(leaveMessForUser.fulfilled, (state) => {
+                state.status = 'succeeded';
+                state.mess = null;
+                state.error = false;
+            })
+            .addCase(leaveMessForUser.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });
