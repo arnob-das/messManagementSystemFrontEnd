@@ -56,6 +56,26 @@ export const deleteMeal = createAsyncThunk('mealCount/deleteMeal', async ({ meal
     }
 });
 
+// get total meal count for a userid based on messid, month and year
+export const getTotalMealCountForUser = createAsyncThunk('mealCount/totalMealForUser', async ({ messId,month,year,userId }, { rejectWithValue }) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/mealCount/getTotalMealCountForUser/${messId}/${month}/${year}/${userId}`);
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data.message || "failed to load meal");
+    }
+});
+
+// get total meal count for a mess based on messId, month and year
+export const getTotalMealCountForMess = createAsyncThunk('mealCount/totalMealForMess', async ({ messId,month,year }, { rejectWithValue }) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/mealCount/getTotalMealCountForMess/${messId}/${month}/${year}`);
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data.message || "failed to load meal");
+    }
+});
+
 const mealSlice = createSlice({
     name: 'mealCount',
     initialState: {

@@ -1,11 +1,13 @@
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addGroceryCost, getGroceryCost } from '../../../features/groceryCost/gorceryCostSlice';
 import { toast } from "react-toastify";
 
 const AddGroceryForm = ({ currentMessId, month, year, userId }) => {
     const { register, handleSubmit, reset } = useForm();
     const dispatch = useDispatch();
+
+    const user = useSelector((state) => state.auth.user);
 
     const onSubmit = async (data) => {
         data.messId = currentMessId;
@@ -52,9 +54,14 @@ const AddGroceryForm = ({ currentMessId, month, year, userId }) => {
                 />
             </div>
             <div>
-                <button type="submit" className="btn btn-primary w-full">
-                    Add Grocery Cost
-                </button>
+                {
+                    user.approved &&
+                    <div>
+                        <button type="submit" className="btn btn-primary w-full">
+                            Add Grocery Cost
+                        </button>
+                    </div>
+                }
             </div>
         </form>
     );

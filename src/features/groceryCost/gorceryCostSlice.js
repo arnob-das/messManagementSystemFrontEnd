@@ -43,6 +43,27 @@ export const deleteGroceryCost = createAsyncThunk('groceryCosts/deleteGroceryCos
     }
 });
 
+// get total grocery cost for a mess based on messId, month and year
+export const getTotalGroceryCost = createAsyncThunk('groceryCosts/totalGroceryCost', async ({ messId,month,year }, { rejectWithValue }) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/groceryCost/getTotalGroceryCostForMess/${messId}/${month}/${year}`);
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data.message || "failed to load grocery cost");
+    }
+});
+
+// get total grocery cost for a user based on messId, month, year and userId
+export const getTotalGroceryCostForUser = createAsyncThunk('groceryCosts/totalGroceryCostForUser', async ({ messId,month,year,userId }, { rejectWithValue }) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/groceryCost/getTotalGroceryCostByUser/${messId}/${month}/${year}/${userId}`);
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data.message || "failed to load grocery cost");
+    }
+});
+
+
 const groceryCostSlice = createSlice({
     name: 'groceryCosts',
     initialState: {

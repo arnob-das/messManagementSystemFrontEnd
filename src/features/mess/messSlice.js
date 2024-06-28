@@ -89,6 +89,32 @@ export const updateSeatRentForMember = createAsyncThunk(
     }
 );
 
+// get seat rent for a member
+export const getSeatRentForSingleMember = createAsyncThunk(
+    'mess/getSeatRentForSingleMember',
+    async ({messId,userId}) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/mess/getSeatRentForSingleMember/${messId}/${userId}`);
+            return response.data;
+        } catch (error) {
+            throw Error(error.response.data.message || 'Failed to fetch seat rents');
+        }
+    }
+);
+
+// get seat rent for mess
+export const getTotalSeatRentForApprovedUsers = createAsyncThunk(
+    'mess/getTotalSeatRentForApprovedUsers',
+    async ({messId}) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/mess/getTotalSeatRentForApprovedUsers/${messId}`);
+            return response.data;
+        } catch (error) {
+            throw Error(error.response.data.message || 'Failed to fetch seat rents');
+        }
+    }
+);
+
 const messSlice = createSlice({
     name: 'mess',
     initialState: {

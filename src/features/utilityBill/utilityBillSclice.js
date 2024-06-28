@@ -53,6 +53,20 @@ export const deleteUtility = createAsyncThunk(
   }
 );
 
+// get total utility bill for a mess of a month and year
+// Get a utility bill
+export const getTotalUtilityForMess = createAsyncThunk(
+  'utilityBill/getTotalUtilityForMess',
+  async ({ messId, month, year }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/utilityBill/getTotalUtilityBill/${messId}/${month}/${year}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const utilityBillSlice = createSlice({
   name: 'utilityBill',
   initialState: {
