@@ -40,7 +40,7 @@ export const register = createAsyncThunk(
 
 export const getUserById = createAsyncThunk(
     'auth/getUserById',
-    async ({id}, { rejectWithValue }) => {
+    async ({ id }, { rejectWithValue }) => {
         console.log(id);
         try {
             const response = await axios.get(`http://localhost:5000/user/getUserById/${id}`);

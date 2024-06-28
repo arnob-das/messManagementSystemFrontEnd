@@ -41,7 +41,7 @@ export const getMessById = createAsyncThunk('mess/getMessById', async ({ id }, {
 // Fetch unapproved users
 export const getUnapprovedUsers = createAsyncThunk(
     'mess/fetchUnapprovedUsers',
-    async ({messId}) => {
+    async ({ messId }) => {
         try {
             const response = await axios.get(`http://localhost:5000/mess/getUnapprovedMembers/${messId}`);
             return response.data;
@@ -54,7 +54,7 @@ export const getUnapprovedUsers = createAsyncThunk(
 // Fetch unapproved users
 export const getApprovedUsers = createAsyncThunk(
     'mess/fetchApprovedUsers',
-    async ({messId}) => {
+    async ({ messId }) => {
         try {
             const response = await axios.get(`http://localhost:5000/mess/getApprovedMembers/${messId}`);
             return response.data;
@@ -66,7 +66,7 @@ export const getApprovedUsers = createAsyncThunk(
 
 export const getApprovedMembersSeatRents = createAsyncThunk(
     'mess/fetchApprovedMembersSeatRents',
-    async ({messId}) => {
+    async ({ messId }) => {
         try {
             const response = await axios.get(`http://localhost:5000/mess/getApprovedMembersSeatRents/${messId}`);
             return response.data;
@@ -92,7 +92,7 @@ export const updateSeatRentForMember = createAsyncThunk(
 // get seat rent for a member
 export const getSeatRentForSingleMember = createAsyncThunk(
     'mess/getSeatRentForSingleMember',
-    async ({messId,userId}) => {
+    async ({ messId, userId }) => {
         try {
             const response = await axios.get(`http://localhost:5000/mess/getSeatRentForSingleMember/${messId}/${userId}`);
             return response.data;
@@ -105,7 +105,7 @@ export const getSeatRentForSingleMember = createAsyncThunk(
 // get seat rent for mess
 export const getTotalSeatRentForApprovedUsers = createAsyncThunk(
     'mess/getTotalSeatRentForApprovedUsers',
-    async ({messId}) => {
+    async ({ messId }) => {
         try {
             const response = await axios.get(`http://localhost:5000/mess/getTotalSeatRentForApprovedUsers/${messId}`);
             return response.data;
@@ -114,6 +114,15 @@ export const getTotalSeatRentForApprovedUsers = createAsyncThunk(
         }
     }
 );
+
+export const updateUserRole = createAsyncThunk('mess/updateUserRole', async ({ messId, userId, role }, { rejectWithValue }) => {
+    try {
+        const response = await axios.put(`http://localhost:5000/mess/updateUserRole`, { messId, userId, role });
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response.data.message || "Failed to update user role");
+    }
+});
 
 const messSlice = createSlice({
     name: 'mess',

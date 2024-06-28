@@ -23,6 +23,7 @@ import MealDeposit from "../Pages/userPanel/MealDeposit/MealDeposit";
 import SetRent from "../Pages/ManagerPanel/SetRent/SetRent";
 import AddInventory from "../Pages/userPanel/AddInventory/AddInventory";
 import UtilityBill from "../Pages/userPanel/UtilityBill/UtilityBill";
+import RoleManagement from "../Pages/ManagerPanel/RoleManagement/RoleManagement";
 
 const routes = createBrowserRouter([
   {
@@ -135,6 +136,10 @@ const routes = createBrowserRouter([
       {
         path: "mess-paymentHistory",
         element: <MessPaymentHistory />
+      },
+      {
+        path: "roleManagement",
+        element: <RoleManagement />
       },
     ]
   }

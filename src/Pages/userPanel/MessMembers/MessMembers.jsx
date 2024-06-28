@@ -8,7 +8,7 @@ const MessMembers = () => {
     const [members, setMembers] = useState([]);
     const [status, setStatus] = useState('idle');
     const [error, setError] = useState(null);
-    
+
     const dispatch = useDispatch();
     const mess = useSelector((state) => state.mess.mess);
     const messId = mess._id;
@@ -24,7 +24,7 @@ const MessMembers = () => {
             setError(error.message);
         }
     }
-    
+
     useEffect(() => {
         fetchMembers();
     }, [dispatch, messId]);

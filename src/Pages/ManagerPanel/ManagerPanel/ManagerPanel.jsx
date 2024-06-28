@@ -128,6 +128,7 @@ const AdminPanel = () => {
     return (
         <div className=" bg-gray-100 p-4">
             <div className="max-w-7xl mx-auto  p-6 rounded-lg ">
+                <p className="pt-5 pb-5 font-bold">Mess Id: {user?.user?.currentMessId}</p>
                 <div className="flex flex-col md:flex-row justify-between items-center mb-4">
                     <div className="flex flex-col md:flex-row items-center">
                         <div className="mr-4 mb-2 md:mb-0">

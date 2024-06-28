@@ -87,7 +87,7 @@ const JoinAMess = () => {
             const response = await dispatch(addMemberToMess({ messId, userId: user._id }));
             if (addMemberToMess.fulfilled.match(response)) {
                 toast.success(response.payload.message || "Joined mess successfully");
-                navigate('/user-dashboard');
+                navigate('/');
                 const updateUserData = {
                     role: "user",
                     approved: false,
@@ -127,7 +127,7 @@ const JoinAMess = () => {
                 </div>
                 <div className="card-actions justify-center">
                     <button type="submit" className="btn btn-primary">
-                        Search
+                        Join
                     </button>
                 </div>
             </form>

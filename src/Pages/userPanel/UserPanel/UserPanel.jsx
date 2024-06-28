@@ -12,17 +12,13 @@ const Dashboard = () => {
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
+    const [members, setMembers] = useState([]);
     const [roomRent, setRoomRent] = useState(0);
-
     const [totalMealForUser, setTotalMealForUser] = useState(0);
     const [totalMealForMess, setTotalMealForMess] = useState(0);
-
     const [totalGroceryCost, setTotalGroceryCost] = useState(0);
     const [totalGroceryCostForUser, setTotalGroceryCostForUser] = useState(0);
-
     const [totalUtilityBillCost, setTotalUtilityBillCost] = useState(0);
-
-    const [members, setMembers] = useState([]);
 
 
     const months = [
@@ -41,8 +37,8 @@ const Dashboard = () => {
     ];
 
     const user = useSelector((state) => state.auth);
-    const mess = useSelector((state) => state.mess);
-    const groceryCost = useSelector((state) => state.groceryCosts.groceryCost);
+    //const mess = useSelector((state) => state.mess);
+    //const groceryCost = useSelector((state) => state.groceryCosts.groceryCost);
 
     const dispatch = useDispatch();
 
@@ -168,7 +164,7 @@ const Dashboard = () => {
 
         fetchMembers();
     }, [dispatch, user.user.currentMessId, user.user._id, selectedMonth, selectedYear]);
-    
+
 
     return (
         <div className="min-h-screen bg-gray-100 p-4">
@@ -206,8 +202,7 @@ const Dashboard = () => {
                     </div>
                 </div>
                 {
-                    user.user.approved
-                        ?
+                    user.user.currentMessId ?
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             <div className="card bg-green-100 shadow-xl">
                                 <div className="card-body">
@@ -222,7 +217,7 @@ const Dashboard = () => {
                                     <h2 className="card-title text-blue-700">
                                         <FontAwesomeIcon icon={faBolt} className="mr-2" /> Utility Bill
                                     </h2>
-                                    <p className="text-blue-700">+ {parseInt(totalUtilityBillCost / members.length)} Taka</p>
+                                    <p className="text-blue-700">+ {members.length ? parseInt(totalUtilityBillCost / members.length) : 0} Taka</p>
                                 </div>
                             </div>
                             <div className="card bg-yellow-100 shadow-xl">
@@ -230,7 +225,7 @@ const Dashboard = () => {
                                     <h2 className="card-title text-yellow-700">
                                         <FontAwesomeIcon icon={faUtensils} className="mr-2" /> Meal Rate
                                     </h2>
-                                    <p className="text-yellow-700">{parseInt(totalGroceryCost / totalMealForMess)} Taka</p>
+                                    <p className="text-yellow-700">{totalMealForMess ? parseInt(totalGroceryCost / totalMealForMess) : 0} Taka</p>
                                 </div>
                             </div>
                             <div className="card bg-yellow-100 shadow-xl">
@@ -265,19 +260,17 @@ const Dashboard = () => {
                                     <p className="text-teal-700">{
                                         parseInt(
                                             roomRent +
-                                            (totalUtilityBillCost / members.length) +
-                                            (totalMealForUser * (totalGroceryCost / totalMealForMess)) -
+                                            (members.length ? totalUtilityBillCost / members.length : 0) +
+                                            (totalMealForMess ? totalMealForUser * (totalGroceryCost / totalMealForMess) : 0) -
                                             totalGroceryCostForUser
                                         )
-
                                     } Taka</p>
+
                                 </div>
                             </div>
                         </div>
                         :
-                        <div>
-                            <p>Wait for approval to see dashboard</p>
-                        </div>
+                        <div><p>Wait to join a mess</p></div>
                 }
             </div>
         </div>

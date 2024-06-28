@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTachometerAlt, faUserCheck, faMoneyCheckAlt, faFileInvoice, faUtensils, faHandHoldingUsd, faHistory, faBars, faTimes, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faTachometerAlt, faUserCheck, faMoneyCheckAlt, faFileInvoice, faUtensils, faHandHoldingUsd, faHistory, faBars, faTimes, faMoneyBill, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const ManagerSidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -27,6 +27,9 @@ const ManagerSidebar = () => {
                 </Link>
                 <Link to="approveUsers" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-700 flex items-center">
                     <FontAwesomeIcon icon={faUserCheck} className="mr-3" /> Approve Users
+                </Link>
+                <Link to="roleManagement" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-700 flex items-center">
+                    <FontAwesomeIcon icon={faUser} className="mr-3" /> Manage Roles
                 </Link>
                 <Link to="approveDeposits" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-700 flex items-center">
                     <FontAwesomeIcon icon={faMoneyCheckAlt} className="mr-3" /> Approve Deposits
