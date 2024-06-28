@@ -1,22 +1,26 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getApprovedUsers, updateUserRole } from "../../../features/mess/messSlice"; 
+import { getApprovedUsers, updateUserRole } from "../../../features/mess/messSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../../features/auth/authSlice";
 
 const RoleManagement = () => {
     const [members, setMembers] = useState([]);
-    const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
-
     const navigate = useNavigate();
+    const [managerCount, setManagerCount] = useState(0);
 
+    const user = useSelector((state) => state.auth.user);
 
     const fetchMembers = async () => {
         try {
             const response = await dispatch(getApprovedUsers({ messId: user.currentMessId }));
             setMembers(response.payload);
+
+            // Count the number of managers
+            const managers = response.payload.filter(member => member.role === "manager");
+            setManagerCount(managers.length);
         } catch (error) {
             console.log(error);
         }
@@ -28,14 +32,15 @@ const RoleManagement = () => {
 
     const handleChangeRole = async (member, newRole) => {
         try {
-            const response = await dispatch(updateUserRole({ messId:user.currentMessId, userId: member._id, role: newRole }));
+            const response = await dispatch(updateUserRole({ messId: user.currentMessId, userId: member._id, role: newRole }));
             if (response.payload.success) {
                 toast.success(`Role updated to ${newRole} for ${member.fullName}`);
-                if(newRole=="user"){
+                if (member._id === user._id && newRole === "user") {
                     dispatch(logout());
                     navigate('/login');
+                } else {
+                    fetchMembers();
                 }
-                fetchMembers();
             } else {
                 toast.error(`Failed to update role for ${member.fullName}`);
             }
@@ -59,7 +64,7 @@ const RoleManagement = () => {
                                     <p className="text-sm text-gray-600">{member.email}</p>
                                     <p className="text-sm text-gray-600">{member.phoneNumber}</p>
                                 </div>
-                                <button 
+                                <button
                                     className="btn btn-sm btn-primary"
                                     onClick={() => handleChangeRole(member, "manager")}
                                 >
@@ -79,9 +84,10 @@ const RoleManagement = () => {
                                     <p className="text-sm text-gray-600">{member.email}</p>
                                     <p className="text-sm text-gray-600">{member.phoneNumber}</p>
                                 </div>
-                                <button 
+                                <button
                                     className="btn btn-sm btn-secondary"
                                     onClick={() => handleChangeRole(member, "user")}
+                                    disabled={managerCount <= 1}
                                 >
                                     Make User
                                 </button>
