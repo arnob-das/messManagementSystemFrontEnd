@@ -1,83 +1,99 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {  useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faUser, faPhone, faIdCard } from '@fortawesome/free-solid-svg-icons';
+import { changePassword } from '../../features/auth/authSlice';
 
 const ProfilePage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const user = useSelector((state) => state.auth);
-    const mess = useSelector((state) => state.mess);
+    const dispatch = useDispatch();
 
+    const user = useSelector((state) => state.auth.user);
+    const mess = useSelector((state) => state.mess)
 
     const onSubmit = data => {
-        console.log(data);
-        // Handle form submission logic here, like sending data to the server
+        dispatch(changePassword({
+            userId: user._id,
+            oldPassword: data.oldPassword,
+            newPassword: data.newPassword
+        }))
+            .unwrap()
+            .then((response) => {
+                console.log(response);
+                toast.success(response);
+            })
+            .catch((error) => {
+                toast.error(error);
+            });
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
             <div className="card w-full max-w-2xl shadow-xl bg-white">
                 <div className="card-body">
-                    <h2 className="text-center text-2xl font-bold">Profile</h2>
-                    <div className="my-4">
-                        <p><strong>Full Name:</strong>{user?.user?.fullName}</p>
-                        <p><strong>Email:</strong>{user?.user?.email}</p>
-                        <p><strong>Phone Number:</strong>{user?.user?.phoneNumber}</p>
-                        <p><strong>National ID:</strong>{user?.user?.nationalId}</p>
-                        <p><strong>Role:</strong>{user?.user?.role}</p>
-                        <p><strong>Current Mess:</strong>{mess?.mess?.messName || "Not Assignmed"}</p>
+                    <div className="flex justify-center mb-4">
+                        <div className="avatar">
+                            <div className="w-24 rounded-full">
+                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                            </div>
+                        </div>
                     </div>
-                    <h3 className="text-xl font-bold">Update Information</h3>
+                    <h2 className="text-center text-2xl font-bold mb-4">Profile</h2>
+                    <div className="my-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="flex items-center">
+                            <FontAwesomeIcon icon={faUser} className="mr-3" />
+                            <span>{user?.fullName}</span>
+                        </div>
+                        <div className="flex items-center">
+                            <FontAwesomeIcon icon={faEnvelope} className="mr-3" />
+                            <span>{user?.email}</span>
+                        </div>
+                        <div className="flex items-center">
+                            <FontAwesomeIcon icon={faPhone} className="mr-3" />
+                            <span>{user?.phoneNumber}</span>
+                        </div>
+                        <div className="flex items-center">
+                            <FontAwesomeIcon icon={faIdCard} className="mr-3" />
+                            <span>{user?.nationalId}</span>
+                        </div>
+                        <div className="flex items-center">
+                            <FontAwesomeIcon icon={faUser} className="mr-3" />
+                            <span>{user?.role}</span>
+                        </div>
+                        <div className="flex items-center">
+                            <FontAwesomeIcon icon={faUser} className="mr-3" />
+                            <span>{mess?.mess?.messName || "Not Assigned"}</span>
+                        </div>
+                    </div>
+                    <h3 className="text-xl font-bold mt-6 mb-4">Change Password</h3>
                     <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Full Name</span>
-                            </label>
-                            <input
-                                type="text"
-                                placeholder="John Doe"
-                                {...register("fullName", { required: true })}
-                                className={`input input-bordered ${errors.fullName ? 'input-error' : ''}`}
-                            />
-                            {errors.fullName && <span className="text-error">This field is required</span>}
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Phone Number</span>
-                            </label>
-                            <input
-                                type="text"
-                                placeholder="123-456-7890"
-                                {...register("phoneNumber", { required: true })}
-                                className={`input input-bordered ${errors.phoneNumber ? 'input-error' : ''}`}
-                            />
-                            {errors.phoneNumber && <span className="text-error">This field is required</span>}
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Password</span>
+                                <span className="label-text">Old Password</span>
                             </label>
                             <input
                                 type="password"
-                                placeholder="password"
-                                {...register("password", { required: true })}
-                                className={`input input-bordered ${errors.password ? 'input-error' : ''}`}
+                                {...register("oldPassword", { required: true })}
+                                className={`input input-bordered ${errors.oldPassword ? 'input-error' : ''}`}
                             />
-                            {errors.password && <span className="text-error">This field is required</span>}
+                            {errors.oldPassword && <span className="text-error">This field is required</span>}
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">National ID</span>
+                                <span className="label-text">Confirm Password</span>
                             </label>
                             <input
-                                type="text"
-                                placeholder="123456789"
-                                {...register("nationalId", { required: true })}
-                                className={`input input-bordered ${errors.nationalId ? 'input-error' : ''}`}
+                                type="password"
+                                {...register("newPassword", { required: true })}
+                                className={`input input-bordered ${errors.newPassword ? 'input-error' : ''}`}
                             />
-                            {errors.nationalId && <span className="text-error">This field is required</span>}
+                            {errors.newPassword && <span className="text-error">This field is required</span>}
                         </div>
                         <div className="form-control mt-6 md:col-span-2">
-                            <button type="submit" className="btn btn-primary w-full">Update Profile</button>
+                            <button type="submit" className="btn btn-primary w-full" >Update Password</button>
                         </div>
                     </form>
                 </div>

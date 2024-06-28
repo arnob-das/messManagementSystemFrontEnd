@@ -31,9 +31,9 @@ const ManagerSidebar = () => {
                 <Link to="roleManagement" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-700 flex items-center">
                     <FontAwesomeIcon icon={faUser} className="mr-3" /> Manage Roles
                 </Link>
-                <Link to="approveDeposits" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-700 flex items-center">
+                {/* <Link to="approveDeposits" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-700 flex items-center">
                     <FontAwesomeIcon icon={faMoneyCheckAlt} className="mr-3" /> Approve Deposits
-                </Link>
+                </Link> */}
                 <Link to="setRent" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-700 flex items-center">
                     <FontAwesomeIcon icon={faMoneyBill} className="mr-3" /> Set Rent
                 </Link>

@@ -71,9 +71,9 @@ const Sidebar = () => {
                         <Link to="meal" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                             <FontAwesomeIcon icon={faUtensils} className="mr-3" /> Meal
                         </Link>
-                        <Link to="mealDeposit" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
+                        {/* <Link to="mealDeposit" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                             <FontAwesomeIcon icon={faDollarSign} className="mr-3" /> Meal Deposit
-                        </Link>
+                        </Link> */}
                         <Link to="addInventory" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                             <FontAwesomeIcon icon={faShop} className="mr-3" /> Manage Grocery
                         </Link>
@@ -83,12 +83,12 @@ const Sidebar = () => {
                         <Link to="messMembers" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                             <FontAwesomeIcon icon={faUsers} className="mr-3" /> Mess Members
                         </Link>
-                        <Link to="payCost" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
+                        {/* <Link to="payCost" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                             <FontAwesomeIcon icon={faMoneyBill} className="mr-3" /> Pay Cost
                         </Link>
                         <Link to="user-paymentHistory" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                             <FontAwesomeIcon icon={faHistory} className="mr-3" /> Payment History
-                        </Link>
+                        </Link> */}
                         <Link to="" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                             <button className="" onClick={handleLeaveMess}>
                                 <FontAwesomeIcon icon={faSignOut} className="mr-3" /> Leave Mess

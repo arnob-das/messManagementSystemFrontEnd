@@ -70,6 +70,26 @@ export const updateUserById = createAsyncThunk(
     }
 );
 
+// change password slice
+export const changePassword = createAsyncThunk(
+    'auth/changePassword',
+    async ({ userId, oldPassword, newPassword }, { rejectWithValue }) => {
+        try {
+            const response = await axios.post('http://localhost:5000/user/change-password', {
+                userId,
+                oldPassword,
+                newPassword
+            });
+            return response.data.message;
+        } catch (error) {
+            if (error.response) {
+                return rejectWithValue(error.response.data.message);
+            }
+            return rejectWithValue("Server error");
+        }
+    }
+);
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -120,6 +140,18 @@ const authSlice = createSlice({
                 state.user = action.payload;
             })
             .addCase(updateUserById.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(changePassword.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(changePassword.fulfilled, (state) => {
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(changePassword.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });
