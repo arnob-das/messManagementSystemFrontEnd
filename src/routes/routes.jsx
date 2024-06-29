@@ -24,6 +24,10 @@ import SetRent from "../Pages/ManagerPanel/SetRent/SetRent";
 import AddInventory from "../Pages/userPanel/AddInventory/AddInventory";
 import UtilityBill from "../Pages/userPanel/UtilityBill/UtilityBill";
 import RoleManagement from "../Pages/ManagerPanel/RoleManagement/RoleManagement";
+import ManagerPrivateRoute from "../utils/PrivateRoute/ManagerPrivateRoute";
+import NotMessMemberPrivateRoute from "../utils/PrivateRoute/NotMessMemberPrivateRoute";
+import NotLoggedInUserRoute from "../utils/PrivateRoute/NotLoggedInUserRoute";
+import ApprovedUserRoute from "../utils/PrivateRoute/ApprovedUserRoute";
 
 const routes = createBrowserRouter([
   {
@@ -36,12 +40,18 @@ const routes = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <Login />,
+        element: (
+          <NotLoggedInUserRoute>
+            <Login />
+          </NotLoggedInUserRoute>
+        ),
       },
       {
         path: "/register",
         element: (
-          <Registration />
+          <NotLoggedInUserRoute>
+            <Registration />
+          </NotLoggedInUserRoute>
         ),
       },
       {
@@ -64,39 +74,72 @@ const routes = createBrowserRouter([
     children: [
       {
         path: "joinAMess",
-        element: <JoinAMess />
+        element: (
+          <NotMessMemberPrivateRoute>
+            <JoinAMess />
+          </NotMessMemberPrivateRoute>
+        )
       },
       {
         path: "createAMess",
-        element: <CreateAMess />
+        element: (
+          <NotMessMemberPrivateRoute>
+            <CreateAMess />
+          </NotMessMemberPrivateRoute>)
       },
       {
         path: "meal",
-        element: <Meal />
+        element: (
+          <ApprovedUserRoute>
+            <Meal />
+          </ApprovedUserRoute>)
       },
       {
         path: "mealDeposit",
-        element: <MealDeposit />
+        element: (
+          <ApprovedUserRoute>
+            <MealDeposit />
+          </ApprovedUserRoute>
+        )
       },
       {
         path: "addInventory",
-        element: <AddInventory />
+        element: (
+          <ApprovedUserRoute>
+            <AddInventory />
+          </ApprovedUserRoute>
+        )
       },
       {
         path: "utilityBill",
-        element: <UtilityBill />
+        element: (
+          <ApprovedUserRoute>
+            <UtilityBill />
+          </ApprovedUserRoute>
+        )
       },
       {
         path: "messMembers",
-        element: <MessMembers />
+        element: (
+          <ApprovedUserRoute>
+            <MessMembers />
+          </ApprovedUserRoute>
+        )
       },
       {
         path: "payCost",
-        element: <PayCost />
+        element: (
+          <ApprovedUserRoute>
+            <PayCost />
+          </ApprovedUserRoute>)
       },
       {
         path: "user-paymentHistory",
-        element: <UserPaymentHistory />
+        element: (
+          <ApprovedUserRoute>
+            <UserPaymentHistory />
+          </ApprovedUserRoute>
+        )
       },
     ]
   },
@@ -104,9 +147,9 @@ const routes = createBrowserRouter([
   {
     path: "/manager-dashboard",
     element: (
-      <LoggedInUserRoute>
+      <ManagerPrivateRoute>
         <ManagerDashboard />
-      </LoggedInUserRoute>
+      </ManagerPrivateRoute>
     ),
     children: [
       {

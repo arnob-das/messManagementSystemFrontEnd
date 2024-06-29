@@ -1,13 +1,11 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-// eslint-disable-next-line react/prop-types
 const LoggedInUserRoute = ({ children }) => {
     const { pathname } = useLocation();
 
     const { isAuthenticated} = useSelector(state => state.auth);
 
-    // if logged in user, then they can not go to login and register page.
     if (!isAuthenticated ) {
         return <Navigate to='/login' state={{ path: pathname }} />;
     }

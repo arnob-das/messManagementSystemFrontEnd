@@ -54,7 +54,7 @@ const Sidebar = () => {
                     <FontAwesomeIcon icon={faHome} className="mr-3" /> Home
                 </Link>
 
-                {isAuthenticated && user.role === "user" && !user.approved && user.currentMessId == null ?
+                {isAuthenticated && user.role === "user" && ((!user.approved && user.currentMessId == null) ||(!user.approved && user.currentMessId!=null)) ?
                     <>
                         <Link to="joinAMess" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                             <FontAwesomeIcon icon={faSignInAlt} className="mr-3" /> Join Mess

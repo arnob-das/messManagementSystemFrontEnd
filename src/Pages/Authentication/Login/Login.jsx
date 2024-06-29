@@ -1,14 +1,17 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../features/auth/authSlice";
+import { useEffect } from "react";
 
 const Login = () => {
     const { register, handleSubmit } = useForm();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    // const user = useSelector((state)=>state.auth);
 
     const onSubmit = async (data) => {
         try {
@@ -29,6 +32,10 @@ const Login = () => {
             toast.error("Server error");
         }
     };
+
+    // if(user.isAuthenticated){
+    //     Navigate('/user-dashboard')
+    // }
 
     return (
         <div className="flex items-center justify-center md:my-10">
