@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { logout } from '../auth/authSlice';
 
 // Add a new utility bill
 export const addUtility = createAsyncThunk(
@@ -124,6 +125,11 @@ const utilityBillSlice = createSlice({
       .addCase(deleteUtility.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+      })
+      .addCase(logout, (state) => {
+        state.utilityBill = null;
+        state.status = 'idle';
+        state.error = null;
       });
   },
 });

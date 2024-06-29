@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { logout } from '../auth/authSlice';
 
 // Add a new grocery cost
 export const addGroceryCost = createAsyncThunk('groceryCosts/addGroceryCost', async (groceryData, { rejectWithValue }) => {
     const { messId, month, year, groceries } = groceryData;
     try {
         const response = await axios.post('http://localhost:5000/groceryCost/add', { messId, month, year, groceries });
-        console.log({messId,month,year,groceries})
+        console.log({ messId, month, year, groceries })
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to add grocery cost");
@@ -44,7 +45,7 @@ export const deleteGroceryCost = createAsyncThunk('groceryCosts/deleteGroceryCos
 });
 
 // get total grocery cost for a mess based on messId, month and year
-export const getTotalGroceryCost = createAsyncThunk('groceryCosts/totalGroceryCost', async ({ messId,month,year }, { rejectWithValue }) => {
+export const getTotalGroceryCost = createAsyncThunk('groceryCosts/totalGroceryCost', async ({ messId, month, year }, { rejectWithValue }) => {
     try {
         const response = await axios.get(`http://localhost:5000/groceryCost/getTotalGroceryCostForMess/${messId}/${month}/${year}`);
         return response.data
@@ -54,7 +55,7 @@ export const getTotalGroceryCost = createAsyncThunk('groceryCosts/totalGroceryCo
 });
 
 // get total grocery cost for a user based on messId, month, year and userId
-export const getTotalGroceryCostForUser = createAsyncThunk('groceryCosts/totalGroceryCostForUser', async ({ messId,month,year,userId }, { rejectWithValue }) => {
+export const getTotalGroceryCostForUser = createAsyncThunk('groceryCosts/totalGroceryCostForUser', async ({ messId, month, year, userId }, { rejectWithValue }) => {
     try {
         const response = await axios.get(`http://localhost:5000/groceryCost/getTotalGroceryCostByUser/${messId}/${month}/${year}/${userId}`);
         return response.data
@@ -121,6 +122,11 @@ const groceryCostSlice = createSlice({
             .addCase(deleteGroceryCost.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
+            })
+            .addCase(logout, (state) => {
+                state.groceryCost = null;
+                state.status = null;
+                state.error = null;
             });
     },
 });

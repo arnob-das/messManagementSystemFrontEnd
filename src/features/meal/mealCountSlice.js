@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { logout } from '../auth/authSlice';
 
 // Get meals by user ID, month, year, and mess ID
 export const getMeals = createAsyncThunk('meals/fetchMeals', async ({ currentMessId, userId, month, year }, { rejectWithValue }) => {
@@ -132,6 +133,11 @@ const mealSlice = createSlice({
             .addCase(deleteMeal.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
+            })
+            .addCase(logout, (state) => {
+                state.mealCount = { meals: [] };
+                state.status = null;
+                state.error = null;
             });
     },
 });

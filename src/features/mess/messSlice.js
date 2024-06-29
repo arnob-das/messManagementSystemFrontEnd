@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { logout } from '../auth/authSlice';
 
 // Create mess
 export const createMess = createAsyncThunk('mess/createMess', async (messData, { getState, rejectWithValue }) => {
@@ -119,7 +120,7 @@ export const updateUserRole = createAsyncThunk('mess/updateUserRole', async ({ m
     try {
         const response = await axios.put(`http://localhost:5000/mess/updateUserRole`, { messId, userId, role });
         return response.data;
-    } catch (error) {
+    } catch (error) {   
         return rejectWithValue(error.response.data.message || "Failed to update user role");
     }
 });
@@ -136,6 +137,7 @@ export const leaveMessForUser = createAsyncThunk('mess/leaveMess', async ({ mess
         return rejectWithValue("Server error");
     }
 });
+
 
 const messSlice = createSlice({
     name: 'mess',
@@ -210,6 +212,12 @@ const messSlice = createSlice({
             .addCase(leaveMessForUser.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
+            })
+            .addCase(logout, (state) => {
+                state.mess = null;
+                state.status = null;
+                state.error = false;
+                state.approvedMembersSeatRents=[]
             });
     },
 });

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUtensils, faDollarSign, faUsers, faMoneyBill, faHistory, faSignInAlt, faUserPlus, faBars, faTimes, faShop, faHandHoldingDollar, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUtensils, faUsers, faSignInAlt, faUserPlus, faBars, faTimes, faShop, faHandHoldingDollar, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { leaveMessForUser } from '../../features/mess/messSlice';
 import { toast } from 'react-toastify';
 import { logout } from '../../features/auth/authSlice';
@@ -12,6 +12,8 @@ const Sidebar = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { isAuthenticated, user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -21,8 +23,7 @@ const Sidebar = () => {
         const result = await dispatch(leaveMessForUser({ userId: user._id, messId: user.currentMessId }));
         if (leaveMessForUser.fulfilled.match(result)) {
             toast.success("You have successfully left the mess");
-            dispatch(logout());
-            Navigate('/login'); 
+            navigate('/user-dashboard'); 
         } else {
             toast.error("Failed to leave the mess");
         }

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { leaveMessForUser } from '../mess/messSlice';
 
 const initialState = {
     isAuthenticated: false,
@@ -154,6 +155,12 @@ const authSlice = createSlice({
             .addCase(changePassword.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
+            })
+            .addCase(leaveMessForUser.fulfilled, (state) => {
+                if (state.user) {
+                    state.user.currentMessId = null;
+                    state.user.approved = false;
+                }
             });
     },
 });

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { logout } from '../auth/authSlice';
 
 // Add a new meal deposit
 export const addMealDeposit = createAsyncThunk('mealDeposits/addMealDeposit', async (depositData, { rejectWithValue }) => {
@@ -150,6 +151,11 @@ const mealDepositSlice = createSlice({
             .addCase(deleteMealDeposit.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
+            })
+            .addCase(logout, (state) => {
+                state.mealDeposit = [];
+                state.status = null;
+                state.error = null;
             });
     },
 });
