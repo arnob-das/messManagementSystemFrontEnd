@@ -70,8 +70,8 @@ const AddInventory = () => {
                             <h2 className="text-xl font-bold">Grocery Costs for {month} / {year}</h2>
                         </div>
                         <div className="overflow-x-auto">
-                            <table className="table w-full">
-                                <thead>
+                            <table className="table w-full table-zebra">
+                                <thead className='bg-gray-200'>
                                     <tr>
                                         <th>Date</th>
                                         <th>Grocery Details</th>
@@ -90,12 +90,12 @@ const AddInventory = () => {
                                                     {
                                                         user._id === item.userId &&
                                                         <div>
-                                                            <button onClick={() => setEditItem(item)} className="btn btn-sm btn-primary">
-                                                                <FontAwesomeIcon icon={faEdit} className="mr-2" />
+                                                            <button onClick={() => setEditItem(item)} className="mr-1 btn btn-sm btn-primary">
+                                                                <FontAwesomeIcon icon={faEdit} className="" />
                                                             </button>
 
-                                                            <button onClick={() => setDeleteItem(item)} className="btn btn-sm btn-error">
-                                                                <FontAwesomeIcon icon={faTrash} className="mr-2" />
+                                                            <button onClick={() => setDeleteItem(item)} className="ml-1 btn btn-sm btn-error">
+                                                                <FontAwesomeIcon icon={faTrash} className="" />
                                                             </button>
                                                         </div>
                                                     }

@@ -55,7 +55,6 @@ export const deleteUtility = createAsyncThunk(
 );
 
 // get total utility bill for a mess of a month and year
-// Get a utility bill
 export const getTotalUtilityForMess = createAsyncThunk(
   'utilityBill/getTotalUtilityForMess',
   async ({ messId, month, year }, { rejectWithValue }) => {

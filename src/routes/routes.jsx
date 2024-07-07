@@ -28,6 +28,7 @@ import ManagerPrivateRoute from "../utils/PrivateRoute/ManagerPrivateRoute";
 import NotMessMemberPrivateRoute from "../utils/PrivateRoute/NotMessMemberPrivateRoute";
 import NotLoggedInUserRoute from "../utils/PrivateRoute/NotLoggedInUserRoute";
 import ApprovedUserRoute from "../utils/PrivateRoute/ApprovedUserRoute";
+import NotFound from "../Pages/NotFound/NotFound";
 
 const routes = createBrowserRouter([
   {
@@ -185,7 +186,11 @@ const routes = createBrowserRouter([
         element: <RoleManagement />
       },
     ]
-  }
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
 
 export default routes;

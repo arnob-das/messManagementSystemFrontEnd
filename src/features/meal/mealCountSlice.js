@@ -31,7 +31,7 @@ export const getAllMessMembersMeals = createAsyncThunk('meals/getAllMessMembersM
 export const addMeal = createAsyncThunk('mealCount/addMeal', async (mealData, { rejectWithValue }) => {
     try {
         const response = await axios.post('http://localhost:5000/mealCount/addMeal', mealData);
-        return response.data.mealCount; // Return the updated mealCount directly
+        return response.data.mealCount; 
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to add meal");
     }
@@ -41,7 +41,7 @@ export const addMeal = createAsyncThunk('mealCount/addMeal', async (mealData, { 
 export const editMeal = createAsyncThunk('mealCount/editMeal', async ({ mealId, mealData }, { rejectWithValue }) => {
     try {
         const response = await axios.put(`http://localhost:5000/mealCount/editMeal`, { mealId, meal: mealData });
-        return response.data.mealCount; // Return the updated mealCount directly
+        return response.data.mealCount; 
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to edit meal");
     }
@@ -51,7 +51,7 @@ export const editMeal = createAsyncThunk('mealCount/editMeal', async ({ mealId, 
 export const deleteMeal = createAsyncThunk('mealCount/deleteMeal', async ({ mealId }, { rejectWithValue }) => {
     try {
         const response = await axios.delete(`http://localhost:5000/mealCount/deleteMeal`, { data: { mealId } });
-        return response.data.mealCount; // Return the updated mealCount directly
+        return response.data.mealCount;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to delete meal");
     }

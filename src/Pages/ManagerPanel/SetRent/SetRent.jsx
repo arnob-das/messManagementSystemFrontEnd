@@ -57,7 +57,7 @@ const SetRent = () => {
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Seat Rent</th>
+                                <th>Room Rent</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>

@@ -97,7 +97,7 @@ const Registration = () => {
                                 <span className="label-text">Phone Number</span>
                             </label>
                             <input
-                                type="text"
+                                type="Number"
                                 {...register('phoneNumber', { required: 'Phone Number is required' })}
                                 placeholder="123-456-7890"
                                 className="input input-bordered"
@@ -109,7 +109,7 @@ const Registration = () => {
                                 <span className="label-text">National ID Number</span>
                             </label>
                             <input
-                                type="text"
+                                type="Number"
                                 {...register('nationalId', { required: 'National ID Number is required' })}
                                 placeholder="123456789"
                                 className="input input-bordered"

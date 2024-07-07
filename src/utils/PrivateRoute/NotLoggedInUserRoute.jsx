@@ -6,7 +6,7 @@ const NotLoggedInUserRoute = ({ children }) => {
     const { isAuthenticated } = useSelector(state => state.auth);
 
     if (isAuthenticated) {
-        return <Navigate to='/user-dashboard' />;
+        return <Navigate to='/' />;
     }   
 
     return children;

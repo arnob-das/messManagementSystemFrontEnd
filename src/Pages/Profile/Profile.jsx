@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faUser, faPhone, faIdCard } from '@fortawesome/free-solid-svg-icons';
 import { changePassword } from '../../features/auth/authSlice';
+import profileImg from "../../assets/profileImg.png"
 
 const ProfilePage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -37,7 +38,8 @@ const ProfilePage = () => {
                     <div className="flex justify-center mb-4">
                         <div className="avatar">
                             <div className="w-24 rounded-full">
-                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                                {/* <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" /> */}
+                                <img src={profileImg} />
                             </div>
                         </div>
                     </div>

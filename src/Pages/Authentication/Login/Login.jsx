@@ -79,11 +79,11 @@ const Login = () => {
                             </Link>
                         </p>
                     </div>
-                    <div className="text-center mt-4">
+                    {/* <div className="text-center mt-4">
                         <a href="#" className="link link-hover">
                             Forgot password?
                         </a>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

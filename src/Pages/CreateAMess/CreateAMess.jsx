@@ -4,7 +4,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createMess } from '../../features/mess/messSlice';
 import { useNavigate } from 'react-router-dom';
-import { updateUserById } from '../../features/auth/authSlice';
+import { getUserById, logout, updateUserById } from '../../features/auth/authSlice';
+import Swal from 'sweetalert2';
 
 const CreateAMess = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -16,6 +17,7 @@ const CreateAMess = () => {
     const onSubmit = async (data) => {
         try {
             const resultAction = await dispatch(createMess(data));
+            console.log(resultAction.payload._id)
 
             if (createMess.fulfilled.match(resultAction)) {
                 toast.success(resultAction.payload.message);
@@ -24,13 +26,26 @@ const CreateAMess = () => {
                 const updateUserData = {
                     role: "manager",
                     approved: true,
-                    currentMessId: resultAction.payload._id // Access created mess ID from payload
+                    currentMessId: resultAction.payload._id
                 };
                 const updateUserAction = await dispatch(updateUserById({ userId: user._id, userData: updateUserData }));
+                console.log(updateUserAction);
 
                 if (updateUserById.fulfilled.match(updateUserAction)) {
                     toast.success(updateUserAction.payload.message);
-                    navigate('/user-dashboard');
+                    Swal.fire({
+                        title: "Mess created successfully. To get manager access please login again.",
+                        showDenyButton: true,
+                        confirmButtonText: "Log out",
+                        denyButtonText: `Cancel`
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            dispatch(logout())
+                        } else if (result.isDenied) {
+                            //   Swal.fire("Changes are not saved", "", "info");
+                        }
+                    });
                 } else {
                     toast.error("Failed to update user info");
                 }
@@ -95,7 +110,7 @@ const CreateAMess = () => {
                                 <span className="label-text">Owner Phone Number</span>
                             </label>
                             <input
-                                type="text"
+                                type="Number"
                                 placeholder="Enter Owner Phone Number"
                                 className="input input-bordered"
                                 {...register('messOwnerPhoneNumber', {

@@ -40,6 +40,8 @@ const AdminPanel = () => {
     ];
 
     const user = useSelector((state) => state.auth);
+    const mess = useSelector((state) => state.mess)
+    console.log(mess)
 
     // total meal for mess
     useEffect(() => {
@@ -128,10 +130,26 @@ const AdminPanel = () => {
     return (
         <div className=" bg-gray-100 p-4">
             <div className="max-w-7xl mx-auto  p-6 rounded-lg ">
-                <p className="pt-5 pb-5 font-bold">Mess Id: {user?.user?.currentMessId}</p>
+                <div className="flex  space-x-4 py-5">
+                    <div className="">
+                        <label className="block text-sm font-medium text-gray-700">Mess ID</label>
+                        <input
+                            type="text"
+                            value={user.user.currentMessId}
+                            readOnly
+                            className="input input-bordered w-full mt-1"
+                        />
+                    </div>
+                    <button
+                        onClick={() => navigator.clipboard.writeText(user?.user?.currentMessId)}
+                        className="btn btn-primary mt-6"
+                    >
+                        Copy
+                    </button>
+                </div>
                 <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-                    <div className="flex flex-col md:flex-row items-center">
-                        <div className="mr-4 mb-2 md:mb-0">
+                    <div className="flex flex-col md:flex-row items-center w-full">
+                        <div className="mr-4 mb-2 md:mb-0 w-full md:w-auto">
                             <label className="block text-sm font-medium text-gray-700">Month</label>
                             <select
                                 className="select select-bordered w-full"
@@ -145,7 +163,7 @@ const AdminPanel = () => {
                                 ))}
                             </select>
                         </div>
-                        <div className="mr-4 mb-2 md:mb-0">
+                        <div className="mr-4 mb-2 md:mb-0 w-full md:w-auto">
                             <label className="block text-sm font-medium text-gray-700">Year</label>
                             <select
                                 className="select select-bordered w-full"
@@ -207,7 +225,7 @@ const AdminPanel = () => {
                 <h2 className="font-bold text-2xl mt-5 mb-5">Individual Mess Members Cost</h2>
                 <div>
                     {
-                        members.map(member => (
+                        members?.map(member => (
                             <MemberDetails
                                 key={member._id}
                                 fullName={member.fullName}

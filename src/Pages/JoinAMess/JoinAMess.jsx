@@ -72,8 +72,9 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { addMemberToMess } from "../../features/mess/messSlice"; // Assuming your slice location
 import { toast } from "react-toastify";
-import { updateUserById } from "../../features/auth/authSlice";
+import { logout, updateUserById } from "../../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const JoinAMess = () => {
     const dispatch = useDispatch();
@@ -86,7 +87,7 @@ const JoinAMess = () => {
         try {
             const response = await dispatch(addMemberToMess({ messId, userId: user._id }));
             if (addMemberToMess.fulfilled.match(response)) {
-                toast.success(response.payload.message || "Joined mess successfully");
+                toast.success(response.payload.message || "Joined mess");
                 navigate('/');
                 const updateUserData = {
                     role: "user",
@@ -96,8 +97,9 @@ const JoinAMess = () => {
                 const updateUserAction = await dispatch(updateUserById({ userId: user._id, userData: updateUserData }));
 
                 if (updateUserById.fulfilled.match(updateUserAction)) {
-                    toast.success(updateUserAction.payload.message || "User info updated successfully");
+                    // toast.success(updateUserAction.payload.message || "User info updated successfully");
                     navigate('/user-dashboard');
+                    
                 } else {
                     toast.error(updateUserAction.payload || "Failed to update user info");
                 }

@@ -45,7 +45,7 @@ export const getUserById = createAsyncThunk(
         console.log(id);
         try {
             const response = await axios.get(`http://localhost:5000/user/getUserById/${id}`);
-            return response.data.message;
+            return response.data;
         } catch (error) {
             if (error.response) {
                 return rejectWithValue(error.response.data.message);
@@ -61,6 +61,7 @@ export const updateUserById = createAsyncThunk(
     async ({ userId, userData }, { rejectWithValue }) => {
         try {
             const response = await axios.put(`http://localhost:5000/user/update/${userId}`, userData);
+            console.log(response.payload)
             return response.data.updatedUser;
         } catch (error) {
             if (error.response) {
@@ -91,6 +92,8 @@ export const changePassword = createAsyncThunk(
     }
 );
 
+
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -119,6 +122,22 @@ const authSlice = createSlice({
                 state.error = action.payload;
                 state.user = null;
             })
+            .addCase(getUserById.pending,(state)=>{
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getUserById.fulfilled,(state,action)=>{
+                state.isAuthenticated = true;
+                state.loading = true;
+                state.user=action.payload
+                state.error = null;
+            })
+            .addCase(getUserById.rejected,(state,action)=>{
+                state.isAuthenticated = false;
+                state.loading = true;
+                state.user=action.payload
+                state.error = null;
+            })
             .addCase(register.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -138,7 +157,9 @@ const authSlice = createSlice({
             .addCase(updateUserById.fulfilled, (state, action) => {
                 state.loading = false;
                 state.error = null;
-                state.user = action.payload;
+                state.user.currentMessId = action.payload.currentMessId;
+                state.user.approved = action.payload.approved;
+                state.user.approved = action.payload.approved;
             })
             .addCase(updateUserById.rejected, (state, action) => {
                 state.loading = false;

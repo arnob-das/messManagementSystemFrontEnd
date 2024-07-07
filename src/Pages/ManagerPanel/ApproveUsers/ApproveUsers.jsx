@@ -41,8 +41,8 @@ const ApproveUsers = () => {
         try {
             const updateUserAction = await dispatch(updateUserById({ userId: updateUserData.userId, userData: updateUserData }));
             if (updateUserById.fulfilled.match(updateUserAction)) {
-                toast.success(updateUserAction.payload.message || "User Approved !!");
-                await fetchData(); // Fetch the unapproved users again after a successful update
+                toast.success(updateUserAction.payload.message || "Updated !!");
+                await fetchData(); 
             } else {
                 toast.error("Failed to update user info");
             }

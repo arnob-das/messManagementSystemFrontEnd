@@ -30,8 +30,8 @@ const UtilityBill = () => {
                 <div className="md:w-1/2 p-4">
                     <h2 className="text-lg leading-tight font-medium text-black">Utility Bills for {new Date(year, month - 1).toLocaleString('default', { month: 'long' })} {year}</h2>
                     <div className="overflow-x-auto mt-4">
-                        <table className="table w-full">
-                            <thead>
+                        <table className="table w-full table-zebra">
+                            <thead className='bg-gray-200'>
                                 <tr>
                                     <th>Utility Name</th>
                                     <th>Utility Cost</th>
@@ -43,7 +43,7 @@ const UtilityBill = () => {
                                     {utilityBill.utilities.map((utility) => (
                                         <tr key={utility._id}>
                                             <td>{utility.utilityName}</td>
-                                            <td>${utility.utilityCost}</td>
+                                            <td>{utility.utilityCost} Taka</td>
                                         </tr>
                                     ))}
                                 </tbody>

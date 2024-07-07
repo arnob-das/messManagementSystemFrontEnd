@@ -9,7 +9,6 @@ import { useSelector } from 'react-redux';
 const Meal = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const user = useSelector((state) => state.auth.user);
-    console.log(user.approved);
 
     return (
         <div className="container mx-auto p-4">

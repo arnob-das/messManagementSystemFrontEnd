@@ -1,11 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMeal } from '../../features/meal/mealCountSlice';
+import { useNavigate } from 'react-router-dom';
 
 const MealModal = ({ isOpen, onClose }) => {
     const { register, handleSubmit, reset } = useForm();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
+    const navigate = useNavigate();
 
     const handleAddMeal = (data) => {
         const { mealDate } = data;
@@ -28,6 +30,7 @@ const MealModal = ({ isOpen, onClose }) => {
         dispatch(addMeal(mealData)).then(()=>{
             reset();
             onClose();
+            navigate('/user-dashboard/meal')
         })
 
         

@@ -1,33 +1,57 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUtensils, faUsers, faSignInAlt, faUserPlus, faBars, faTimes, faShop, faHandHoldingDollar, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUtensils, faUsers, faSignInAlt, faUserPlus, faBars, faTimes, faShop, faHandHoldingDollar, faSignOut, faPerson } from '@fortawesome/free-solid-svg-icons';
 import { leaveMessForUser } from '../../features/mess/messSlice';
 import { toast } from 'react-toastify';
-import { logout } from '../../features/auth/authSlice';
+import { getUserById, logout } from '../../features/auth/authSlice';
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { isAuthenticated, user } = useSelector((state) => state.auth);
+
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+
+    // console.log(user._id);
+
+    // const fetchUser = async()=>{
+    //     await dispatch(getUserById({ id: user._id }))
+    // }
+
+    // useEffect(()=>{
+    //     if(isAuthenticated){
+    //         fetchUser();
+    //     }
+    // },[dispatch])
 
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
 
+    // const leaveMess = async () => {
+    //     const result = await dispatch(leaveMessForUser({ userId: user._id, messId: user.currentMessId }));
+    //     if (leaveMessForUser.fulfilled.match(result)) {
+    //         toast.success("You have successfully left the mess");
+    //         dispatch(logout())
+    //     } else {
+    //         toast.error("Failed to leave the mess");
+    //     }
+    // }
+
     const leaveMess = async () => {
         const result = await dispatch(leaveMessForUser({ userId: user._id, messId: user.currentMessId }));
+
         if (leaveMessForUser.fulfilled.match(result)) {
             toast.success("You have successfully left the mess");
-            navigate('/user-dashboard'); 
+            dispatch(logout());
         } else {
-            toast.error("Failed to leave the mess");
+            toast.error(result.payload.message || "Failed to leave the mess");
         }
-    }
+    };
+
 
     const handleLeaveMess = () => {
         setIsModalOpen(true);
@@ -55,20 +79,31 @@ const Sidebar = () => {
                     <FontAwesomeIcon icon={faHome} className="mr-3" /> Home
                 </Link>
 
-                {isAuthenticated && user.role === "user" && ((!user.approved && user.currentMessId == null) ||(!user.approved && user.currentMessId!=null)) ?
+                {isAuthenticated && user.role === "user" && ((!user.approved && user.currentMessId == null) || (!user.approved && user.currentMessId != null)) ?
                     <>
-                        <Link to="joinAMess" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
-                            <FontAwesomeIcon icon={faSignInAlt} className="mr-3" /> Join Mess
-                        </Link>
-                        <Link to="createAMess" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
-                            <FontAwesomeIcon icon={faUserPlus} className="mr-3" /> Create A Mess
-                        </Link>
+                        {
+                            user.currentMessId == null &&
+                            <>
+                                <Link to="joinAMess" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
+                                    <FontAwesomeIcon icon={faSignInAlt} className="mr-3" /> Join Mess
+                                </Link>
+                                <Link to="createAMess" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
+                                    <FontAwesomeIcon icon={faUserPlus} className="mr-3" /> Create A Mess
+                                </Link>
+                            </>
+                        }
                     </>
                     :
                     <>
                         <Link to="/user-dashboard" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                             <FontAwesomeIcon icon={faHome} className="mr-3" /> Dashboard
                         </Link>
+                        {
+                            user.role == "manager" &&
+                            <Link to="/manager-dashboard" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
+                                <FontAwesomeIcon icon={faPerson} className="mr-3" /> Manager Dashboard
+                            </Link>
+                        }
                         <Link to="meal" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 flex items-center">
                             <FontAwesomeIcon icon={faUtensils} className="mr-3" /> Meal
                         </Link>

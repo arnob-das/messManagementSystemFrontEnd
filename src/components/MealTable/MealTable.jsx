@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getMeals, editMeal, deleteMeal } from "../../features/meal/mealCountSlice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-    import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const MealTable = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
     const mealCount = useSelector((state) => state.mealCount.mealCount);
-    
+
     const currentMonth = new Date().getMonth() + 1;
     const currentYear = new Date().getFullYear();
 
@@ -18,7 +18,11 @@ const MealTable = () => {
         }
     }, [user, dispatch, currentMonth, currentYear]);
 
-    const sortedMeals = mealCount?.meals?.slice().sort((a, b) => new Date(a.mealDate) - new Date(b.mealDate)) || [];
+    // const myMeal = mealCount.meals.filter(meal=>meal.userId ===user._id);
+    //console.log(myMeal);
+
+    //const sortedMeals = mealCount?.meals?.slice().sort((a, b) => new Date(a.mealDate) - new Date(b.mealDate)) || [];
+    let sortedMeals = mealCount?.meals.filter(meal => meal.userId === user._id)
     const [editData, setEditData] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
 
@@ -53,7 +57,8 @@ const MealTable = () => {
         return totals;
     }, { breakfast: 0, lunch: 0, dinner: 0, total: 0 });
 
-    const monthName = new Date(mealCount.year, mealCount.month - 1).toLocaleString('default', { month: 'long' });
+    const monthName = new Date().toLocaleString('default', { month: 'long' });
+    console.log(monthName);
 
     return (
         <div className="container mx-auto p-4">

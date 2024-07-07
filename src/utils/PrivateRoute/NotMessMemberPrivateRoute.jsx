@@ -6,7 +6,7 @@ const NotMessMemberPrivateRoute = ({ children }) => {
 
     const { isAuthenticated,user} = useSelector(state => state.auth);
 
-    if ( isAuthenticated && user.currentMessId !=null && user.approved==true) {
+    if ( isAuthenticated && user.currentMessId !=null) {
         return <Navigate to='/user-dashboard' state={{ path: pathname }} />;
     }
 

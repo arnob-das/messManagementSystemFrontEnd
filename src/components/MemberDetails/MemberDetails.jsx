@@ -143,6 +143,8 @@ const MemberDetails = ({ fullName, userId, messId, selectedMonth, selectedYear }
         fetchMembers();
     }, [dispatch, messId, userId, selectedMonth, selectedYear]);
 
+    console.log(members)
+
 
     return (
         <div className=" mt-5 mb-5">
@@ -156,7 +158,7 @@ const MemberDetails = ({ fullName, userId, messId, selectedMonth, selectedYear }
                             <h2 className="card-title text-green-700">
                                 <FontAwesomeIcon icon={faHome} className="mr-2" /> Room Rent
                             </h2>
-                            <p className="text-green-700">+ {roomRent} Taka</p>
+                            <p className="text-green-700">{roomRent} Taka</p>
                         </div>
                     </div>
                     <div className="card bg-blue-100 shadow-xl">
@@ -164,7 +166,7 @@ const MemberDetails = ({ fullName, userId, messId, selectedMonth, selectedYear }
                             <h2 className="card-title text-blue-700">
                                 <FontAwesomeIcon icon={faBolt} className="mr-2" /> Utility Bill
                             </h2>
-                            <p className="text-blue-700">+ {parseInt(totalUtilityBillCost / members.length)} Taka</p>
+                            <p className="text-blue-700">{parseInt(totalUtilityBillCost / members.length)} Taka</p>
                         </div>
                     </div>
                     <div className="card bg-yellow-100 shadow-xl">
@@ -172,7 +174,7 @@ const MemberDetails = ({ fullName, userId, messId, selectedMonth, selectedYear }
                             <h2 className="card-title text-yellow-700">
                                 <FontAwesomeIcon icon={faUtensils} className="mr-2" /> Meal Rate
                             </h2>
-                            <p className="text-yellow-700">{parseInt(totalGroceryCost / totalMealForMess)} Taka</p>
+                            <p className="text-yellow-700">{parseInt(totalGroceryCost / totalMealForMess) || 0} Taka</p>
                         </div>
                     </div>
                     <div className="card bg-yellow-100 shadow-xl">
@@ -188,7 +190,7 @@ const MemberDetails = ({ fullName, userId, messId, selectedMonth, selectedYear }
                             <h2 className="card-title text-red-700">
                                 <FontAwesomeIcon icon={faMoneyBill} className="mr-2" /> Meal Cost
                             </h2>
-                            <p className="text-red-700">+ {parseInt(totalMealForUser * (totalGroceryCost / totalMealForMess)) || 0} Taka</p>
+                            <p className="text-red-700">{parseInt(totalMealForUser * (totalGroceryCost / totalMealForMess)) || 0} Taka</p>
                         </div>
                     </div>
                     <div className="card bg-purple-100 shadow-xl">
@@ -196,7 +198,7 @@ const MemberDetails = ({ fullName, userId, messId, selectedMonth, selectedYear }
                             <h2 className="card-title text-purple-700">
                                 <FontAwesomeIcon icon={faWallet} className="mr-2" /> Grocery Cost By You
                             </h2>
-                            <p className="text-purple-700">- {totalGroceryCostForUser} Taka</p>
+                            <p className="text-purple-700">{totalGroceryCostForUser} Taka</p>
                         </div>
                     </div>
                     <div className="card bg-teal-100 shadow-xl">
@@ -207,9 +209,9 @@ const MemberDetails = ({ fullName, userId, messId, selectedMonth, selectedYear }
                             <p className="text-teal-700">{
                                 parseInt(
                                     roomRent +
-                                    (totalUtilityBillCost / members.length) +
-                                    (totalMealForUser * (totalGroceryCost / totalMealForMess)) -
-                                    totalGroceryCostForUser
+                                    ((totalUtilityBillCost / members.length) || 0) +
+                                    ((totalMealForUser * (totalGroceryCost / totalMealForMess)) || 0) -
+                                    (totalGroceryCostForUser || 0)
                                 )
 
                             } Taka</p>
