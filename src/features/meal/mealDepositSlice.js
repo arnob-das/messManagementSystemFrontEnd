@@ -2,10 +2,12 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { logout } from '../auth/authSlice';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 // Add a new meal deposit
 export const addMealDeposit = createAsyncThunk('mealDeposits/addMealDeposit', async (depositData, { rejectWithValue }) => {
     try {
-        const response = await axios.post('http://localhost:5000/mealDeposit/addMealDeposit', depositData);
+        const response = await axios.post(`${BASE_URL}/mealDeposit/addMealDeposit`, depositData);
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to add meal deposit");
@@ -15,7 +17,7 @@ export const addMealDeposit = createAsyncThunk('mealDeposits/addMealDeposit', as
 // Get all meal deposits for a specific mess and date
 export const getMessMealDeposits = createAsyncThunk('mealDeposits/getMealDeposits', async ({ currentMessId, date }, { rejectWithValue }) => {
     try {
-        const response = await axios.get('http://localhost:5000/mealDeposit/getMessMealDeposits', { params: { currentMessId, date } });
+        const response = await axios.get(`${BASE_URL}/mealDeposit/getMessMealDeposits`, { params: { currentMessId, date } });
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to fetch meal deposits");
@@ -25,7 +27,7 @@ export const getMessMealDeposits = createAsyncThunk('mealDeposits/getMealDeposit
 // Get all meal deposits for a specific user
 export const getUserMealDeposit = createAsyncThunk('mealDeposits/getUserMealDeposits', async ({ userId, date, currentMessId }, { rejectWithValue }) => {
     try {
-        const response = await axios.get('http://localhost:5000/mealDeposit/getUserMealDeposits', { params: { userId, date, currentMessId } });
+        const response = await axios.get(`${BASE_URL}/mealDeposit/getUserMealDeposits`, { params: { userId, date, currentMessId } });
         return response.data.mealDeposits;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to fetch user meal deposits");
@@ -35,7 +37,7 @@ export const getUserMealDeposit = createAsyncThunk('mealDeposits/getUserMealDepo
 // Edit a meal deposit by deposit ID
 export const editMealDeposit = createAsyncThunk('mealDeposits/editMealDeposit', async ({ depositId, depositAmount }, { rejectWithValue }) => {
     try {
-        const response = await axios.put(`http://localhost:5000/mealDeposit/editMealDeposit`, { depositId, depositAmount });
+        const response = await axios.put(`${BASE_URL}/mealDeposit/editMealDeposit`, { depositId, depositAmount });
         return response.data.mealDeposit;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to edit meal deposit");
@@ -45,7 +47,7 @@ export const editMealDeposit = createAsyncThunk('mealDeposits/editMealDeposit', 
 // Edit a meal deposit by deposit ID
 export const editMealDepositStatus = createAsyncThunk('mealDeposits/editMealDepositStatus', async ({ depositId, status }, { rejectWithValue }) => {
     try {
-        const response = await axios.put(`http://localhost:5000/mealDeposit/updateMealDepositStatus`, { depositId, status });
+        const response = await axios.put(`${BASE_URL}/mealDeposit/updateMealDepositStatus`, { depositId, status });
         return response.data.mealDeposit;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to edit meal deposit");
@@ -56,7 +58,7 @@ export const editMealDepositStatus = createAsyncThunk('mealDeposits/editMealDepo
 export const deleteMealDeposit = createAsyncThunk('mealDeposits/deleteMealDeposit', async ({ depositId }, { rejectWithValue }) => {
     try {
         console.log(depositId)
-        const response = await axios.delete(`http://localhost:5000/mealDeposit/deleteMealDeposit`, { data: { depositId } });
+        const response = await axios.delete(`${BASE_URL}/mealDeposit/deleteMealDeposit`, { data: { depositId } });
         return response.data.mealDeposit;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to delete meal deposit");

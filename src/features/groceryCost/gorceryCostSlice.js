@@ -2,11 +2,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { logout } from '../auth/authSlice';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 // Add a new grocery cost
 export const addGroceryCost = createAsyncThunk('groceryCosts/addGroceryCost', async (groceryData, { rejectWithValue }) => {
     const { messId, month, year, groceries } = groceryData;
     try {
-        const response = await axios.post('http://localhost:5000/groceryCost/add', { messId, month, year, groceries });
+        const response = await axios.post(`${BASE_URL}groceryCost/add`, { messId, month, year, groceries });
         console.log({ messId, month, year, groceries })
         return response.data;
     } catch (error) {
@@ -17,7 +19,7 @@ export const addGroceryCost = createAsyncThunk('groceryCosts/addGroceryCost', as
 // Get grocery costs for a specific mess, month, and year
 export const getGroceryCost = createAsyncThunk('groceryCosts/getGroceryCost', async ({ messId, month, year }, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`http://localhost:5000/groceryCost/get/${messId}/${month}/${year}`);
+        const response = await axios.get(`${BASE_URL}/${messId}/${month}/${year}`);
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to fetch grocery costs");
@@ -27,7 +29,7 @@ export const getGroceryCost = createAsyncThunk('groceryCosts/getGroceryCost', as
 // Update a grocery cost by grocery ID
 export const updateGroceryCost = createAsyncThunk('groceryCosts/updateGroceryCost', async (updateData, { rejectWithValue }) => {
     try {
-        const response = await axios.put('http://localhost:5000/groceryCost/update', updateData);
+        const response = await axios.put(`${BASE_URL}/groceryCost/update`, updateData);
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to update grocery cost");
@@ -37,7 +39,7 @@ export const updateGroceryCost = createAsyncThunk('groceryCosts/updateGroceryCos
 // Delete a grocery cost by grocery ID
 export const deleteGroceryCost = createAsyncThunk('groceryCosts/deleteGroceryCost', async ({ messId, month, year, groceryId }, { rejectWithValue }) => {
     try {
-        const response = await axios.delete('http://localhost:5000/groceryCost/delete', { data: { messId, month, year, groceryId } });
+        const response = await axios.delete(`${BASE_URL}/groceryCost/delete`, { data: { messId, month, year, groceryId } });
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to delete grocery cost");
@@ -47,7 +49,7 @@ export const deleteGroceryCost = createAsyncThunk('groceryCosts/deleteGroceryCos
 // get total grocery cost for a mess based on messId, month and year
 export const getTotalGroceryCost = createAsyncThunk('groceryCosts/totalGroceryCost', async ({ messId, month, year }, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`http://localhost:5000/groceryCost/getTotalGroceryCostForMess/${messId}/${month}/${year}`);
+        const response = await axios.get(`${BASE_URL}/groceryCost/getTotalGroceryCostForMess/${messId}/${month}/${year}`);
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data.message || "failed to load grocery cost");
@@ -57,7 +59,7 @@ export const getTotalGroceryCost = createAsyncThunk('groceryCosts/totalGroceryCo
 // get total grocery cost for a user based on messId, month, year and userId
 export const getTotalGroceryCostForUser = createAsyncThunk('groceryCosts/totalGroceryCostForUser', async ({ messId, month, year, userId }, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`http://localhost:5000/groceryCost/getTotalGroceryCostByUser/${messId}/${month}/${year}/${userId}`);
+        const response = await axios.get(`${BASE_URL}/groceryCost/getTotalGroceryCostByUser/${messId}/${month}/${year}/${userId}`);
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data.message || "failed to load grocery cost");

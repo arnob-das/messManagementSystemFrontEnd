@@ -9,11 +9,13 @@ const initialState = {
     error: null,
 };
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const login = createAsyncThunk(
     'auth/login',
     async (userData, { rejectWithValue }) => {
         try {
-            const response = await axios.post('http://localhost:5000/user/login', userData);
+            const response = await axios.post(`${BASE_URL}/user/login`, userData);
             return response.data.user;
         } catch (error) {
             if (error.response) {
@@ -28,7 +30,7 @@ export const register = createAsyncThunk(
     'auth/register',
     async (userData, { rejectWithValue }) => {
         try {
-            const response = await axios.post('http://localhost:5000/user/register', userData);
+            const response = await axios.post(`${BASE_URL}/user/register`, userData);
             return response.data.message;
         } catch (error) {
             if (error.response) {
@@ -44,7 +46,7 @@ export const getUserById = createAsyncThunk(
     async ({ id }, { rejectWithValue }) => {
         console.log(id);
         try {
-            const response = await axios.get(`http://localhost:5000/user/getUserById/${id}`);
+            const response = await axios.get(`${BASE_URL}/user/getUserById/${id}`);
             return response.data;
         } catch (error) {
             if (error.response) {
@@ -60,7 +62,7 @@ export const updateUserById = createAsyncThunk(
     'auth/updateUser',
     async ({ userId, userData }, { rejectWithValue }) => {
         try {
-            const response = await axios.put(`http://localhost:5000/user/update/${userId}`, userData);
+            const response = await axios.put(`${BASE_URL}/user/update/${userId}`, userData);
             console.log(response.payload)
             return response.data.updatedUser;
         } catch (error) {
@@ -77,7 +79,7 @@ export const changePassword = createAsyncThunk(
     'auth/changePassword',
     async ({ userId, oldPassword, newPassword }, { rejectWithValue }) => {
         try {
-            const response = await axios.post('http://localhost:5000/user/change-password', {
+            const response = await axios.post(`${BASE_URL}/user/change-password`, {
                 userId,
                 oldPassword,
                 newPassword

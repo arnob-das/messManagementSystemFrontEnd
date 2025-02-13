@@ -19,7 +19,7 @@ const Navbar = () => {
     return (
         <div className="navbar bg-base-100 px-6 lg:px-28">
             <div className="navbar-start">
-                <a className="btn btn-ghost text-xl">Mess Management</a>
+                <Link to='/' className="btn btn-ghost text-xl">Mess Management</Link>
             </div>
             <div className="navbar-end w-full lg:w-auto">
                 <div className="flex items-center lg:hidden">

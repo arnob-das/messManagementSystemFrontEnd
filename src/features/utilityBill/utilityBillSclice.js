@@ -2,12 +2,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { logout } from '../auth/authSlice';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 // Add a new utility bill
 export const addUtility = createAsyncThunk(
   'utilityBill/addUtility',
   async (utilityData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:5000/utilityBill/add', utilityData);
+      const response = await axios.post(`${BASE_URL}/utilityBill/add`, utilityData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -20,7 +22,7 @@ export const getUtility = createAsyncThunk(
   'utilityBill/getUtility',
   async ({ messId, month, year }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`http://localhost:5000/utilityBill/getUtility/${messId}/${month}/${year}`);
+      const response = await axios.get(`${BASE_URL}/utilityBill/getUtility/${messId}/${month}/${year}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -33,7 +35,7 @@ export const updateUtility = createAsyncThunk(
   'utilityBill/updateUtility',
   async (utilityData, { rejectWithValue }) => {
     try {
-      const response = await axios.put('http://localhost:5000/utilityBill/update', utilityData);
+      const response = await axios.put(`${BASE_URL}/utilityBill/update`, utilityData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -46,7 +48,7 @@ export const deleteUtility = createAsyncThunk(
   'utilityBill/deleteUtility',
   async (utilityData, { rejectWithValue }) => {
     try {
-      const response = await axios.delete('http://localhost:5000/utilityBill/delete', { data: utilityData });
+      const response = await axios.delete(`${BASE_URL}/utilityBill/delete`, { data: utilityData });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -59,7 +61,7 @@ export const getTotalUtilityForMess = createAsyncThunk(
   'utilityBill/getTotalUtilityForMess',
   async ({ messId, month, year }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`http://localhost:5000/utilityBill/getTotalUtilityBill/${messId}/${month}/${year}`);
+      const response = await axios.get(`${BASE_URL}/utilityBill/getTotalUtilityBill/${messId}/${month}/${year}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

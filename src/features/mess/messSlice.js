@@ -2,11 +2,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { logout } from '../auth/authSlice';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 // Create mess
 export const createMess = createAsyncThunk('mess/createMess', async (messData, { getState, rejectWithValue }) => {
     try {
         const { auth } = getState();
-        const response = await axios.post('http://localhost:5000/mess/create', {
+        const response = await axios.post(`${BASE_URL}/mess/create`, {
             ...messData,
             managerId: [auth.user._id],
             members: [{ userId: auth.user._id, joinDate: new Date(), seatRent: 0 }],
@@ -19,7 +21,7 @@ export const createMess = createAsyncThunk('mess/createMess', async (messData, {
 
 export const addMemberToMess = createAsyncThunk('mess/addMember', async ({ messId, userId }, { rejectWithValue }) => {
     try {
-        const response = await axios.post('http://localhost:5000/mess/addMemberToMess', { messId, userId });
+        const response = await axios.post(`${BASE_URL}/mess/addMemberToMess`, { messId, userId });
         return response.data;
     } catch (error) {
         if (error.response) {
@@ -32,7 +34,7 @@ export const addMemberToMess = createAsyncThunk('mess/addMember', async ({ messI
 // Get mess by id
 export const getMessById = createAsyncThunk('mess/getMessById', async ({ id }, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`http://localhost:5000/mess/${id}`);
+        const response = await axios.get(`${BASE_URL}/mess/${id}`);
         return response.data.mess;
     } catch (error) {
         return rejectWithValue(error.response.data.message || "Failed to fetch mess data");
@@ -44,7 +46,7 @@ export const getUnapprovedUsers = createAsyncThunk(
     'mess/fetchUnapprovedUsers',
     async ({ messId }) => {
         try {
-            const response = await axios.get(`http://localhost:5000/mess/getUnapprovedMembers/${messId}`);
+            const response = await axios.get(`${BASE_URL}/mess/getUnapprovedMembers/${messId}`);
             return response.data;
         } catch (error) {
             throw Error(error.response.data.message || 'Failed to fetch unapproved users');
@@ -57,7 +59,7 @@ export const getApprovedUsers = createAsyncThunk(
     'mess/fetchApprovedUsers',
     async ({ messId }) => {
         try {
-            const response = await axios.get(`http://localhost:5000/mess/getApprovedMembers/${messId}`);
+            const response = await axios.get(`${BASE_URL}/mess/getApprovedMembers/${messId}`);
             return response.data;
         } catch (error) {
             throw Error(error.response.data.message || 'Failed to fetch unapproved users');
@@ -69,7 +71,7 @@ export const getApprovedMembersSeatRents = createAsyncThunk(
     'mess/fetchApprovedMembersSeatRents',
     async ({ messId }) => {
         try {
-            const response = await axios.get(`http://localhost:5000/mess/getApprovedMembersSeatRents/${messId}`);
+            const response = await axios.get(`${BASE_URL}/mess/getApprovedMembersSeatRents/${messId}`);
             return response.data;
         } catch (error) {
             throw Error(error.response.data.message || 'Failed to fetch seat rents');
@@ -82,7 +84,7 @@ export const updateSeatRentForMember = createAsyncThunk(
     'mess/updateSeatRentForMember',
     async ({ messId, userId, seatRent }, { rejectWithValue }) => {
         try {
-            const response = await axios.put('http://localhost:5000/mess/updateSeatRentForUser', { messId, userId, seatRent });
+            const response = await axios.put(`${BASE_URL}/mess/updateSeatRentForUser`, { messId, userId, seatRent });
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data.message || "Failed to update seat rent for member");
@@ -95,7 +97,7 @@ export const getSeatRentForSingleMember = createAsyncThunk(
     'mess/getSeatRentForSingleMember',
     async ({ messId, userId }) => {
         try {
-            const response = await axios.get(`http://localhost:5000/mess/getSeatRentForSingleMember/${messId}/${userId}`);
+            const response = await axios.get(`${BASE_URL}/mess/getSeatRentForSingleMember/${messId}/${userId}`);
             return response.data;
         } catch (error) {
             throw Error(error.response.data.message || 'Failed to fetch seat rents');
@@ -108,7 +110,7 @@ export const getTotalSeatRentForApprovedUsers = createAsyncThunk(
     'mess/getTotalSeatRentForApprovedUsers',
     async ({ messId }) => {
         try {
-            const response = await axios.get(`http://localhost:5000/mess/getTotalSeatRentForApprovedUsers/${messId}`);
+            const response = await axios.get(`${BASE_URL}/mess/getTotalSeatRentForApprovedUsers/${messId}`);
             return response.data;
         } catch (error) {
             throw Error(error.response.data.message || 'Failed to fetch seat rents');
@@ -118,7 +120,7 @@ export const getTotalSeatRentForApprovedUsers = createAsyncThunk(
 
 export const updateUserRole = createAsyncThunk('mess/updateUserRole', async ({ messId, userId, role }, { rejectWithValue }) => {
     try {
-        const response = await axios.put(`http://localhost:5000/mess/updateUserRole`, { messId, userId, role });
+        const response = await axios.put(`${BASE_URL}/mess/updateUserRole`, { messId, userId, role });
         return response.data;
     } catch (error) {   
         return rejectWithValue(error.response.data.message || "Failed to update user role");
@@ -128,7 +130,7 @@ export const updateUserRole = createAsyncThunk('mess/updateUserRole', async ({ m
 export const leaveMessForUser = createAsyncThunk('mess/leaveMess', async ({ messId, userId }, { rejectWithValue }) => {
     console.log(userId,messId);
     try {
-        const response = await axios.put('http://localhost:5000/mess/leave', { messId, userId });
+        const response = await axios.put(`${BASE_URL}/mess/leave`, { messId, userId });
         return response.data;
     } catch (error) {
         if (error.response) {
